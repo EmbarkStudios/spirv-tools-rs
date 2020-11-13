@@ -1,5 +1,34 @@
-[workspace]
-members = [
-    "spirv-tools",
-    "spirv-tools-sys",
+[package]
+name = "spirv-tools"
+description = "Wrapper crate for SPIRV-Tools"
+repository = "https://github.com/EmbarkStudios/spirv-tools-rs"
+version = "0.1.0"
+authors = ["Embark <opensource@embark-studios.com>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+documentation = "https://docs.rs/spirv-tools"
+homepage = "https://github.com/EmbarkStudios/spirv-tools-rs"
+keywords = ["spir-v", "rust-gpu"]
+exclude = [
+    ".github",
+    "release.toml",
 ]
+
+[features]
+default = ["use-compiled-tools"]
+use-installed-tools = ["spirv-tools-sys/use-installed-tools", "memchr", "tempfile"]
+use-compiled-tools = ["spirv-tools-sys/use-compiled-tools"]
+
+[dependencies]
+spirv-tools-sys = { version = "0.1.0", path = "./spirv-tools-sys", default-features = false }
+# Used for parsing output when running binaries
+memchr = { version = "2.3", optional = true }
+tempfile = { version = "3.1", optional = true }
+
+[dev-dependencies]
+structopt = "0.3"
+
+[[example]]
+name = "as"
+required-features = ["use-compiled-tools"]
