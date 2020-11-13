@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [0.1.0] - 2020-11-13
 ### Added
 - Added initial implementation, which includes the assembler, validator, and most of the optimizer, which meets the current needs of rust-gpu.
 
 <!-- next-url -->
+[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.1.0...HEAD
+[0.1.0]: https://github.com/EmbarkStudios/spirv-tools-rs/releases/tag/0.1.0
