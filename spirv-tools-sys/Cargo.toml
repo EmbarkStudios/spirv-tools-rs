@@ -11,12 +11,14 @@ documentation = "https://docs.rs/spirv-tools-sys"
 homepage = "https://github.com/EmbarkStudios/spirv-tools-rs"
 keywords = ["spir-v", "rust-gpu"]
 build = "build.rs"
-exclude = [
-    "spirv-headers/",
-    "!spirv-headers/include",
-    "spirv-tools/",
-    "!spirv-tools/include",
-    "!spirv-tools/source",
+include = [
+    "generated",
+    "spirv-headers/include",
+    "spirv-tools/include",
+    "spirv-tools/source",
+    "src/**",
+    "build.rs",
+    "Cargo.toml",
 ]
 
 [features]
