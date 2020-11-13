@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -45,6 +47,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -70,6 +74,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - uses: EmbarkStudios/cargo-deny-action@v1
 
   # Remove this check if you don't publish the crate(s) from this repo
@@ -78,6 +84,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -90,4 +98,9 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: publish
-          args: --dry-run
+          args: --dry-run --manifest-path spirv-tools-sys/Cargo.toml
+      - name: cargo publish check
+        uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --dry-run --manifest-path spirv-tools/Cargo.toml

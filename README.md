@@ -1,24 +1,21 @@
-<!--- FIXME: Pick an emoji! --->
-# 🌻 opensource-template
+# 🛠 spirv-tools
 
-<!--- FIXME: Update crate and repo names here! --->
-[![Build Status](https://github.com/EmbarkStudios/template/workflows/CI/badge.svg)](https://github.com/EmbarkStudios/template/actions?workflow=CI)
-[![Crates.io](https://img.shields.io/crates/v/tame-oauth.svg)](https://crates.io/crates/tame-oauth)
-[![Docs](https://docs.rs/tame-oauth/badge.svg)](https://docs.rs/tame-oauth)
-[![Contributor Covenant](https://img.shields.io/badge/contributor%20covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 [![Embark](https://img.shields.io/badge/embark-open%20source-blueviolet.svg)](https://embark.dev)
+[![Embark](https://img.shields.io/badge/discord-ark-%237289da.svg?logo=discord)](https://discord.gg/dAuKfZS)
+[![Crates.io](https://img.shields.io/crates/v/spirv-tools.svg)](https://crates.io/crates/spirv-tools)
+[![Docs](https://docs.rs/spirv-tools/badge.svg)](https://docs.rs/spirv-tools)
+[![dependency status](https://deps.rs/repo/github/EmbarkStudios/spirv-tools/status.svg)](https://deps.rs/repo/github/EmbarkStudios/spirv-tools)
+[![Build status](https://github.com/EmbarkStudios/spirv-tools/workflows/CI/badge.svg)](https://github.com/EmbarkStudios/spirv-tools/actions)
 
-Template for creating new open source repositories that follow the Embark open source guidelines.
+This crate is an unofficial wrapper for [SPIR-V Tools], its primary use case is for the [rust-gpu] project.
 
-## TEMPLATE INSTRUCTIONS
+## Status
 
-1. Create a new repository under EmbarkStudios using this template.
-1. __Title:__ Change the first line of this README to the name of your project, and replace the sunflower with an emoji that represents your project. 🚨 Your emoji selection is critical.
-1. __Badges:__ In the badges section above, change the repo name in each URL. If you are creating something other than a Rust crate, remove the crates.io and docs badges (and feel free to add more appropriate ones for your language).
-1. __CI:__ In `./github/workflows/` rename `rust-ci.yml` (or the appropriate config for your language) to `ci.yml`. And go over it and adapt it to work for your project
-1. __Cleanup:__ Remove this section of the README and any unused files (such as configs for other languages) from the repo.
+This is a very rough wrapper around the assembler, validator, and (most of the) optimizer tools available from [SPIR-V Tools], which is enough for the current needs of the [rust-gpu] project. See that project's code for more thorough usage examples.
 
 ## Contributing
+
+[![Contributor Covenant](https://img.shields.io/badge/contributor%20covenant-v1.4-ff69b4.svg)](../CODE_OF_CONDUCT.md)
 
 We welcome community contributions to this project.
 
@@ -36,3 +33,6 @@ at your option.
 ### Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+
+[SPIR-V Tools]: https://github.com/KhronosGroup/SPIRV-Tools
+[rust-gpu]: https://github.com/EmbarkStudios/rust-gpu
