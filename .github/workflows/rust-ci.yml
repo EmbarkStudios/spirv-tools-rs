@@ -98,4 +98,9 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: publish
-          args: --dry-run
+          args: --dry-run --manifest-path spirv-tools-sys/Cargo.toml
+      - name: cargo publish check
+        uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --dry-run --manifest-path spirv-tools/Cargo.toml
