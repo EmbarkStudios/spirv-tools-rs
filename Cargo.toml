@@ -9,6 +9,10 @@ license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/spirv-tools"
 homepage = "https://github.com/EmbarkStudios/spirv-tools-rs"
 keywords = ["spir-v", "rust-gpu"]
+exclude = [
+    ".github",
+    "release.toml",
+]
 
 [features]
 default = ["use-compiled-tools"]

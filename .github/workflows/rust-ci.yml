@@ -103,4 +103,4 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: publish
-          args: --dry-run --manifest-path spirv-tools/Cargo.toml
+          args: --dry-run --manifest-path Cargo.toml
