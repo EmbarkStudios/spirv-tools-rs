@@ -22,6 +22,7 @@ include = [
 ]
 
 [features]
+default = ["use-compiled-tools"]
 # Using this feature disables the compilation in the build script, but
 # preserves the types so that spirv-tools can still work without needing
 # to keep copies of some of the basic enums etc
