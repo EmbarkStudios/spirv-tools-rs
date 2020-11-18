@@ -21,7 +21,7 @@ use-installed-tools = ["spirv-tools-sys/use-installed-tools", "memchr", "tempfil
 use-compiled-tools = ["spirv-tools-sys/use-compiled-tools"]
 
 [dependencies]
-spirv-tools-sys = { version = "0.1.0", path = "./spirv-tools-sys", default-features = false }
+spirv-tools-sys = { version = "0.1", path = "./spirv-tools-sys", default-features = false }
 # Used for parsing output when running binaries
 memchr = { version = "2.3", optional = true }
 tempfile = { version = "3.1", optional = true }
