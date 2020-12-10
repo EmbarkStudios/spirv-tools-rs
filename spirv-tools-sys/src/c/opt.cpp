@@ -141,7 +141,7 @@ extern "C" {
             return SPV_ERROR_OUT_OF_MEMORY;
         }
 
-        spv_binary binary = new spv_binary_t();
+        spv_binary binary = new spv_binary_t { data, output_buff.size() };
         if (binary == nullptr) {
             delete[] data;
             return SPV_ERROR_OUT_OF_MEMORY;
