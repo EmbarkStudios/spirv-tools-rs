@@ -45,6 +45,13 @@ pub enum Binary {
     OwnedU8(Vec<u8>),
 }
 
+impl Binary {
+    /// Gets a byte array for binary
+    pub fn as_bytes(&self) -> &[u8] {
+        self.as_ref()
+    }
+}
+
 impl std::convert::TryFrom<Vec<u8>> for Binary {
     type Error = crate::Error;
 
@@ -68,7 +75,7 @@ impl AsRef<[u32]> for Binary {
             Self::OwnedU32(v) => &v,
             Self::OwnedU8(v) => {
                 // If you hit a panic here it's because try_from wasn't used ;)
-                crate::util::to_binary(&v).unwrap()
+                to_binary(&v).unwrap()
             }
         }
     }
@@ -79,8 +86,37 @@ impl AsRef<[u8]> for Binary {
         match self {
             #[cfg(feature = "use-compiled-tools")]
             Self::External(bin) => bin.as_ref(),
-            Self::OwnedU32(v) => crate::util::from_binary(&v),
+            Self::OwnedU32(v) => from_binary(&v),
             Self::OwnedU8(v) => &v,
         }
     }
+}
+
+/// Transmutes a SPIRV binary, which are stored as 32 bit words, into a more
+/// digestible byte array
+pub fn from_binary(bin: &[u32]) -> &[u8] {
+    unsafe {
+        std::slice::from_raw_parts(
+            bin.as_ptr() as *const u8,
+            bin.len() * std::mem::size_of::<u32>(),
+        )
+    }
+}
+
+/// Transmutes a regular byte array into a SPIRV binary of 32 bit words. This
+/// will fail if the input is not `% sizeof(u32)`
+pub fn to_binary(bytes: &[u8]) -> Result<&[u32], crate::Error> {
+    if bytes.len() % std::mem::size_of::<u32>() != 0 {
+        return Err(crate::Error {
+            inner: spirv_tools_sys::shared::SpirvResult::InvalidBinary,
+            diagnostic: None,
+        });
+    }
+
+    Ok(unsafe {
+        std::slice::from_raw_parts(
+            bytes.as_ptr() as *const u32,
+            bytes.len() / std::mem::size_of::<u32>(),
+        )
+    })
 }

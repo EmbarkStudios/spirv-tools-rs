@@ -13,5 +13,3 @@ pub use spirv_tools_sys::shared::TargetEnv;
 
 #[cfg(feature = "use-installed-tools")]
 pub(crate) mod cmd;
-
-pub mod util;

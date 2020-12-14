@@ -25,7 +25,7 @@ impl Validator for ToolValidator {
             add_options(&mut cmd, opts);
         }
 
-        let input = crate::util::from_binary(binary);
+        let input = crate::binary::from_binary(binary);
 
         crate::cmd::exec(cmd, Some(input), crate::cmd::Output::Ignore)?;
         Ok(())
