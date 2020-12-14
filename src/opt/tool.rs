@@ -23,7 +23,7 @@ impl Optimizer for ToolOptimizer {
 
     fn optimize<MC: error::MessageCallback>(
         &self,
-        input: &[u32],
+        input: impl AsRef<[u32]>,
         msg_callback: &mut MC,
         options: Option<super::Options>,
     ) -> Result<crate::binary::Binary, crate::Error> {
@@ -66,7 +66,7 @@ impl Optimizer for ToolOptimizer {
             }
         }
 
-        let input = crate::util::from_binary(input);
+        let input = crate::binary::from_binary(input.as_ref());
 
         let cmd_output = crate::cmd::exec(cmd, Some(input), crate::cmd::Output::Retrieve)?;
 

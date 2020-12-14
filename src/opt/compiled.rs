@@ -59,7 +59,7 @@ impl Optimizer for CompiledOptimizer {
 
     fn optimize<MC: error::MessageCallback>(
         &self,
-        input: &[u32],
+        input: impl AsRef<[u32]>,
         msg_callback: &mut MC,
         options: Option<super::Options>,
     ) -> Result<crate::binary::Binary, crate::Error> {
@@ -96,6 +96,8 @@ impl Optimizer for CompiledOptimizer {
                 Some(opts) => opts.inner,
                 None => std::ptr::null(),
             };
+
+            let input = input.as_ref();
 
             let res = opt::optimizer_run(
                 self.inner,

@@ -5,7 +5,7 @@ fn validate_compiled(_input: &[u8]) -> Option<Result<(), spirv_tools::Error>> {
     {
         use spirv_tools::val::{compiled::CompiledValidator, Validator};
         let cv = CompiledValidator::default();
-        Some(cv.validate(spirv_tools::util::to_binary(_input).unwrap(), None))
+        Some(cv.validate(spirv_tools::binary::to_binary(_input).unwrap(), None))
     }
     #[cfg(not(feature = "use-compiled-tools"))]
     None
@@ -16,7 +16,7 @@ fn validate_tool(_input: &[u8]) -> Option<Result<(), spirv_tools::Error>> {
     {
         use spirv_tools::val::{tool::ToolValidator, Validator};
         let cv = ToolValidator::default();
-        Some(cv.validate(spirv_tools::util::to_binary(_input).unwrap(), None))
+        Some(cv.validate(spirv_tools::binary::to_binary(_input).unwrap(), None))
     }
     #[cfg(not(feature = "use-installed-tools"))]
     None

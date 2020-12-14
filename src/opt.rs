@@ -25,7 +25,7 @@ pub trait Optimizer {
 
     fn optimize<MC: crate::error::MessageCallback>(
         &self,
-        input: &[u32],
+        input: impl AsRef<[u32]>,
         msg_callback: &mut MC,
         options: Option<Options>,
     ) -> Result<crate::binary::Binary, crate::Error>;
