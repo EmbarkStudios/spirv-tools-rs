@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 ## [0.2.0] - 2020-12-14
+### Fixed
+- [PR#9](https://github.com/EmbarkStudios/spirv-tools-rs/pull/9) Fixed bug in the compiled optimizer that resulted in no output. Thanks [@khyperia](https://github.com/khyperia)!
+
 ## [0.1.1] - 2020-11-18
 ### Added
 - [PR#4](https://github.com/EmbarkStudios/spirv-tools-rs/pull/4) added more clear compile errors if neither of the `use-*-tools` features are enabled for either `spirv-tools` or `spirv-tools-sys`.
