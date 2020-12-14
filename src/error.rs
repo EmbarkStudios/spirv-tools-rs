@@ -122,7 +122,11 @@ impl Message {
         msg: *const std::os::raw::c_char,
     ) -> Self {
         unsafe {
-            let source = std::ffi::CStr::from_ptr(source).to_string_lossy();
+            let source = if source.is_null() {
+                None
+            } else {
+                Some(std::ffi::CStr::from_ptr(source).to_string_lossy())
+            };
             let message = std::ffi::CStr::from_ptr(msg).to_string_lossy();
 
             let (line, column, index) = if source_pos.is_null() {
@@ -137,11 +141,13 @@ impl Message {
 
             Self {
                 level,
-                source: if source.is_empty() {
-                    None
-                } else {
-                    Some(source.into_owned())
-                },
+                source: source.and_then(|source| {
+                    if source.is_empty() {
+                        None
+                    } else {
+                        Some(source.into_owned())
+                    }
+                }),
                 line,
                 column,
                 index,
