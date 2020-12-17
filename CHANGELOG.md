@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [0.3.1] - 2020-12-17
 ### Fixed
 - [PR#13](https://github.com/EmbarkStudios/spirv-tools-rs/pull/13) Fix the spirv-as and spirv-val tool arguments that were broken by [PR#12](https://github.com/EmbarkStudios/spirv-tools-rs/pull/12).
 
@@ -32,7 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added initial implementation, which includes the assembler, validator, and most of the optimizer, which meets the current needs of rust-gpu.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.0...HEAD
+[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.1...HEAD
+[0.3.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.1.0...0.1.1
