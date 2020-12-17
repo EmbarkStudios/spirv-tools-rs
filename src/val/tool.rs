@@ -19,7 +19,7 @@ impl Validator for ToolValidator {
     ) -> Result<(), crate::error::Error> {
         let mut cmd = Command::new("spirv-val");
 
-        cmd.arg(format!("--target-env={}", self.target_env));
+        cmd.arg("--target-env").arg(self.target_env.to_string());
 
         if let Some(opts) = options {
             // We reuse add options when we run the validator before optimizing,

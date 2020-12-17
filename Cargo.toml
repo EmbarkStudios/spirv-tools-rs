@@ -37,3 +37,7 @@ required-features = ["use-compiled-tools"]
 [[test]]
 name = "optimizer"
 required-features = ["use-compiled-tools", "use-installed-tools"]
+
+[[test]]
+name = "assembler"
+required-features = ["use-compiled-tools", "use-installed-tools"]

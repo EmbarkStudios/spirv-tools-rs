@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Fixed
+- [PR#13](https://github.com/EmbarkStudios/spirv-tools-rs/pull/13) Fix the spirv-as and spirv-val tool arguments that were broken by [PR#12](https://github.com/EmbarkStudios/spirv-tools-rs/pull/12).
+
 ## [0.3.0] - 2020-12-17
 ### Added
 - [PR#12](https://github.com/EmbarkStudios/spirv-tools-rs/pull/12) Added the ability to disassemble binary to text.

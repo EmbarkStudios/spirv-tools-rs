@@ -28,6 +28,10 @@ impl Optimizer for ToolOptimizer {
         options: Option<super::Options>,
     ) -> Result<crate::binary::Binary, crate::Error> {
         let mut cmd = std::process::Command::new("spirv-opt");
+
+        // Note here that we don't do cmd.arg("--target-env").arg(self.target_env.to_string());
+        // like with the other tools, because opt is "special" and will fail to parse
+        // command line options correctly if we don't give join them with the =
         cmd.arg(format!("--target-env={}", self.target_env));
 
         cmd.args(

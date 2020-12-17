@@ -15,7 +15,7 @@ impl Assembler for ToolAssembler {
         options: super::AssemblerOptions,
     ) -> Result<crate::binary::Binary, crate::error::Error> {
         let mut cmd = std::process::Command::new("spirv-as");
-        cmd.arg(format!("--target-env={}", self.target_env));
+        cmd.arg("--target-env").arg(self.target_env.to_string());
 
         if options.preserve_numeric_ids {
             cmd.arg("--preserve-numeric-ids");
