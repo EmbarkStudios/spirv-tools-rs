@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 ## [0.3.0] - 2020-12-17
+### Added
+- [PR#12](https://github.com/EmbarkStudios/spirv-tools-rs/pull/12) Added the ability to disassemble binary to text.
+
+### Fixed
+- [PR#12](https://github.com/EmbarkStudios/spirv-tools-rs/pull/12) Fixed several bugs in the optimizer, as well as the command line for the validator.
+
 ## [0.2.0] - 2020-12-14
 ### Fixed
 - [PR#9](https://github.com/EmbarkStudios/spirv-tools-rs/pull/9) Fixed bug in the compiled optimizer that resulted in no output. Thanks [@khyperia](https://github.com/khyperia)!
