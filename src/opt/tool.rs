@@ -28,7 +28,7 @@ impl Optimizer for ToolOptimizer {
         options: Option<super::Options>,
     ) -> Result<crate::binary::Binary, crate::Error> {
         let mut cmd = std::process::Command::new("spirv-opt");
-        cmd.arg("--target-env").arg(self.target_env.to_string());
+        cmd.arg(format!("--target-env={}", self.target_env));
 
         cmd.args(
             self.passes
