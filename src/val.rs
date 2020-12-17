@@ -3,6 +3,8 @@ pub mod compiled;
 #[cfg(feature = "use-installed-tools")]
 pub mod tool;
 
+pub use spirv_tools_sys::val::ValidatorLimits;
+
 #[derive(Default, Clone)]
 pub struct ValidatorOptions {
     /// Record whether or not the validator should relax the rules on types for
@@ -67,14 +69,14 @@ pub struct ValidatorOptions {
     /// uniform/storage block layout.
     pub skip_block_layout: bool,
     /// Applies a maximum to one or more Universal limits
-    pub max_limits: Vec<(spirv_tools_sys::val::ValidatorLimits, u32)>,
+    pub max_limits: Vec<(ValidatorLimits, u32)>,
 }
 
 pub trait Validator: Default {
     fn with_env(target_env: crate::TargetEnv) -> Self;
     fn validate(
         &self,
-        binary: &[u32],
+        binary: impl AsRef<[u32]>,
         options: Option<ValidatorOptions>,
     ) -> Result<(), crate::error::Error>;
 }

@@ -69,13 +69,15 @@ impl Validator for CompiledValidator {
 
     fn validate(
         &self,
-        binary: &[u32],
+        binary: impl AsRef<[u32]>,
         options: Option<super::ValidatorOptions>,
     ) -> Result<(), crate::error::Error> {
         unsafe {
             let mut diagnostic = std::ptr::null_mut();
 
             let options = options.map(Options::from);
+
+            let binary = binary.as_ref();
 
             let input = shared::Binary {
                 code: binary.as_ptr(),

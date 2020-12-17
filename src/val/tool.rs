@@ -14,7 +14,7 @@ impl Validator for ToolValidator {
 
     fn validate(
         &self,
-        binary: &[u32],
+        binary: impl AsRef<[u32]>,
         options: Option<super::ValidatorOptions>,
     ) -> Result<(), crate::error::Error> {
         let mut cmd = Command::new("spirv-val");
@@ -25,7 +25,7 @@ impl Validator for ToolValidator {
             add_options(&mut cmd, opts);
         }
 
-        let input = crate::binary::from_binary(binary);
+        let input = crate::binary::from_binary(binary.as_ref());
 
         crate::cmd::exec(cmd, Some(input), crate::cmd::Output::Ignore)?;
         Ok(())
