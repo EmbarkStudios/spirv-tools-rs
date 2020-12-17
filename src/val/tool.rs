@@ -14,18 +14,22 @@ impl Validator for ToolValidator {
 
     fn validate(
         &self,
-        binary: &[u32],
+        binary: impl AsRef<[u32]>,
         options: Option<super::ValidatorOptions>,
     ) -> Result<(), crate::error::Error> {
         let mut cmd = Command::new("spirv-val");
 
-        cmd.arg("--target-env").arg(self.target_env.to_string());
+        cmd.arg(format!("--target-env={}", self.target_env));
 
         if let Some(opts) = options {
+            // We reuse add options when we run the validator before optimizing,
+            // however the optimizer does not recognize limits, so we split them
+            // out into a separate function
+            add_limits(&mut cmd, &opts.max_limits);
             add_options(&mut cmd, opts);
         }
 
-        let input = crate::binary::from_binary(binary);
+        let input = crate::binary::from_binary(binary.as_ref());
 
         crate::cmd::exec(cmd, Some(input), crate::cmd::Output::Ignore)?;
         Ok(())
@@ -60,8 +64,6 @@ pub(crate) fn add_options(cmd: &mut Command, opts: super::ValidatorOptions) {
     if opts.before_legalization {
         cmd.arg("--before-hlsl-legalization");
     }
-
-    add_limits(cmd, &opts.max_limits);
 }
 
 fn add_limits(cmd: &mut Command, limits: &[(spirv_tools_sys::val::ValidatorLimits, u32)]) {
@@ -69,7 +71,7 @@ fn add_limits(cmd: &mut Command, limits: &[(spirv_tools_sys::val::ValidatorLimit
 
     for (limit, val) in limits {
         cmd.arg(format!(
-            "--max-{}",
+            "--max-{}={}",
             match limit {
                 ValidatorLimits::StructMembers => "struct-members",
                 ValidatorLimits::StructDepth => "struct-depth",
@@ -80,8 +82,8 @@ fn add_limits(cmd: &mut Command, limits: &[(spirv_tools_sys::val::ValidatorLimit
                 ValidatorLimits::ControlFlowNestingDepth => "control-flow-nesting-depth",
                 ValidatorLimits::AccessChainIndexes => "access-chain-indexes",
                 ValidatorLimits::IdBound => "id-bound",
-            }
-        ))
-        .arg(val.to_string());
+            },
+            val
+        ));
     }
 }

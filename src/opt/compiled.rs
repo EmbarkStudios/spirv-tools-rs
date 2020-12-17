@@ -92,7 +92,7 @@ impl Optimizer for CompiledOptimizer {
 
             let options = options.map(Options::from);
 
-            let options = match options {
+            let options = match &options {
                 Some(opts) => opts.inner,
                 None => std::ptr::null(),
             };

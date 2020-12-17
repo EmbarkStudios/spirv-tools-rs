@@ -54,6 +54,68 @@ impl Assembler for CompiledAssembler {
             }
         }
     }
+
+    fn disassemble(
+        &self,
+        binary: impl AsRef<[u32]>,
+        options: super::DisassembleOptions,
+    ) -> Result<String, crate::error::Error> {
+        unsafe {
+            let mut text = std::ptr::null_mut();
+            let mut diagnostic = std::ptr::null_mut();
+
+            let binary = binary.as_ref();
+
+            let res = assembler::disassemble(
+                self.inner,
+                binary.as_ptr() as *const _,
+                binary.len(),
+                options.into(),
+                &mut text,
+                &mut diagnostic,
+            );
+
+            // Always wrap diagnostic, it's fine if it's null
+            use std::convert::TryFrom;
+            let diagnostic = crate::error::Diagnostic::try_from(diagnostic).ok();
+
+            match res {
+                shared::SpirvResult::Success => {
+                    if text.is_null() {
+                        return Err(crate::error::Error {
+                            inner: shared::SpirvResult::InternalError,
+                            diagnostic: Some(
+                                "spirv disassemble indicated success but did not return valid text"
+                                    .to_owned()
+                                    .into(),
+                            ),
+                        });
+                    }
+
+                    // Sanity check the text first
+                    let disassemble_res = std::str::from_utf8(std::slice::from_raw_parts(
+                        (*text).data as *const u8,
+                        (*text).length,
+                    ))
+                    .map(|disasm| disasm.to_owned())
+                    .map_err(|_| crate::error::Error {
+                        inner: shared::SpirvResult::InvalidText,
+                        diagnostic: Some(
+                            "spirv disassemble returned non-utf8 text".to_owned().into(),
+                        ),
+                    });
+
+                    assembler::text_destroy(text);
+
+                    disassemble_res
+                }
+                other => Err(crate::error::Error {
+                    inner: other,
+                    diagnostic,
+                }),
+            }
+        }
+    }
 }
 
 impl Default for CompiledAssembler {

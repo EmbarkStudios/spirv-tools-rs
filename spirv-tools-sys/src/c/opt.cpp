@@ -136,18 +136,21 @@ extern "C" {
             return SPV_ERROR_INTERNAL;
         }
 
-        uint32_t* data = new uint32_t[output_buff.size()];
+        auto word_count = output_buff.size();
+        auto data_byte_count = word_count * 4;
+
+        uint32_t* data = new uint32_t[word_count];
         if (data == nullptr) {
             return SPV_ERROR_OUT_OF_MEMORY;
         }
 
-        spv_binary binary = new spv_binary_t { data, output_buff.size() };
+        spv_binary binary = new spv_binary_t { data, word_count };
         if (binary == nullptr) {
             delete[] data;
             return SPV_ERROR_OUT_OF_MEMORY;
         }
 
-        memcpy(data, output_buff.data(), output_buff.size());
+        memcpy(data, output_buff.data(), data_byte_count);
         *out_binary = binary;
 
         return SPV_SUCCESS;

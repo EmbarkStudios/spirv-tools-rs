@@ -50,6 +50,11 @@ impl Binary {
     pub fn as_bytes(&self) -> &[u8] {
         self.as_ref()
     }
+
+    /// Gets the words for the binary
+    pub fn as_words(&self) -> &[u32] {
+        self.as_ref()
+    }
 }
 
 impl std::convert::TryFrom<Vec<u8>> for Binary {
@@ -89,6 +94,21 @@ impl AsRef<[u8]> for Binary {
             Self::OwnedU32(v) => from_binary(&v),
             Self::OwnedU8(v) => &v,
         }
+    }
+}
+
+use std::fmt;
+
+impl fmt::Debug for Binary {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut ds = match self {
+            #[cfg(feature = "use-compiled-tools")]
+            Self::External(_) => f.debug_struct("External"),
+            Self::OwnedU32(_) => f.debug_struct("OwnedU32"),
+            Self::OwnedU8(_) => f.debug_struct("OwnedU8"),
+        };
+
+        ds.field("word_count", &self.as_words().len()).finish()
     }
 }
 
