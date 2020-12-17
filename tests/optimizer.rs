@@ -3,7 +3,7 @@ const ASSEMBLY_INPUT: &[u8] = include_bytes!("assembled_content.spv");
 
 use spirv_tools as spv;
 
-use spv::opt::Optimizer;
+use spv::{assembler::Assembler, opt::Optimizer, val::Validator};
 use std::convert::TryFrom;
 
 #[test]
@@ -13,8 +13,23 @@ fn compiled_matches_binary() {
     let mut iopt = spv::opt::tool::ToolOptimizer::default();
     iopt.register_size_passes();
 
+    let val = spv::val::create(None);
+
     let assembled = spv::binary::Binary::try_from(ASSEMBLY_INPUT.to_vec())
         .expect("failed to load assembled output");
+
+    val.validate(&assembled, None)
+        .expect("failed to validate input assembly");
+
+    let iopt_output = iopt
+        .optimize(
+            &assembled,
+            &mut |msg| {
+                eprintln!("[tool] optimizer message: {:#?}", msg);
+            },
+            None,
+        )
+        .expect("failed to run tool optimizer");
 
     let copt_output = copt
         .optimize(
@@ -25,21 +40,23 @@ fn compiled_matches_binary() {
             None,
         )
         .expect("failed to run compiled optimizer");
-    let iopt_output = copt
-        .optimize(
-            &assembled,
-            &mut |msg| {
-                eprintln!("[tool] optimizer message: {:#?}", msg);
-            },
-            None,
-        )
-        .expect("failedt to run tool optimizer");
 
-    // Due to version differences we don't expect the outputs to be the exact same
-    // but the first few bytes should always be the same header, so this is mainly
-    // just a test that both of them give _something_
-    assert_eq!(
-        copt_output.as_bytes().get(0..8),
-        iopt_output.as_bytes().get(0..8)
-    );
+    let assembler = spv::assembler::create(None);
+
+    let idisasm = assembler
+        .disassemble(&iopt_output, spv::assembler::DisassembleOptions::default())
+        .unwrap();
+    let cdisasm = assembler
+        .disassemble(&copt_output, spv::assembler::DisassembleOptions::default())
+        .unwrap();
+
+    if idisasm != cdisasm {
+        let changeset = difference::Changeset::new(&idisasm, &cdisasm, "\n");
+        assert!(false, "{}", changeset);
+    }
+
+    val.validate(iopt_output, None)
+        .expect("failed to validate tool output");
+    val.validate(copt_output, None)
+        .expect("failed to validate compiled output");
 }
