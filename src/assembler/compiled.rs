@@ -81,7 +81,7 @@ impl Assembler for CompiledAssembler {
 
             match res {
                 shared::SpirvResult::Success => {
-                    if text.is_null() {
+                    if text.is_null() && !options.print {
                         return Err(crate::error::Error {
                             inner: shared::SpirvResult::InternalError,
                             diagnostic: Some(
