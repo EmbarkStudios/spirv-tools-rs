@@ -5,7 +5,6 @@ struct Optimus;
 
 enum Passes {
     Null,
-    StripAtomicCounterMemory,
     StripDebugInfo,
     StripReflectInfo,
     EliminateDeadFunctions,
@@ -54,11 +53,7 @@ enum Passes {
     CombineAccessChains,
     UpgradeMemoryModel,
     CodeSinking,
-    GenerateWebGPUInitializers,
     FixStorageClass,
-    LegalizeVectorShuffle,
-    DecomposeInitializedVariables,
-    SplitInvalidUnreachable,
     GraphicsRobustAccess,
     DescriptorScalarReplacement,
     WrapOpKill,
@@ -168,7 +163,6 @@ extern "C" {
 
         switch (pass) {
             PASS(Null)
-            PASS(StripAtomicCounterMemory)
             PASS(StripDebugInfo)
             PASS(StripReflectInfo)
             PASS(EliminateDeadFunctions)
@@ -217,11 +211,7 @@ extern "C" {
             PASS(CombineAccessChains)
             PASS(UpgradeMemoryModel)
             PASS(CodeSinking)
-            PASS(GenerateWebGPUInitializers)
             PASS(FixStorageClass)
-            PASS(LegalizeVectorShuffle)
-            PASS(DecomposeInitializedVariables)
-            PASS(SplitInvalidUnreachable)
             PASS(GraphicsRobustAccess)
             PASS(DescriptorScalarReplacement)
             PASS(WrapOpKill)
@@ -235,14 +225,6 @@ extern "C" {
 
     SPIRV_TOOLS_EXPORT void optimizer_register_size_passes(Optimus* optimizer) {
         ((spvtools::Optimizer*)optimizer)->RegisterSizePasses();
-    }
-
-    SPIRV_TOOLS_EXPORT void optimizer_register_vulkan_to_webgpu_passes(Optimus* optimizer) {
-        ((spvtools::Optimizer*)optimizer)->RegisterVulkanToWebGPUPasses();
-    }
-
-    SPIRV_TOOLS_EXPORT void optimizer_register_webgpu_to_vulkan_passes(Optimus* optimizer) {
-        ((spvtools::Optimizer*)optimizer)->RegisterWebGPUToVulkanPasses();
     }
 
     SPIRV_TOOLS_EXPORT void optimizer_register_hlsl_legalization_passes(Optimus* optimizer) {
