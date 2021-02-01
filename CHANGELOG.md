@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Changed
+- [PR#15](https://github.com/EmbarkStudios/spirv-tools-rs/pull/15) updated the upstream spirv-tools to `v2020.7-dev", "SPIRV-Tools v2020.7-dev v2020.6-50-g0a3a1712`.
+
+### Fixed
+- [PR#14](https://github.com/EmbarkStudios/spirv-tools-rs/pull/14) fixed an issue where an error was reported if the disassembled text was directly printed. Thanks [@Danielmelody](https://github.com/Danielmelody)!
+
 ## [0.3.1] - 2020-12-17
 ### Fixed
 - [PR#13](https://github.com/EmbarkStudios/spirv-tools-rs/pull/13) Fix the spirv-as and spirv-val tool arguments that were broken by [PR#12](https://github.com/EmbarkStudios/spirv-tools-rs/pull/12).
