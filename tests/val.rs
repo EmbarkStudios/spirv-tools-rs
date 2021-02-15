@@ -1,3 +1,5 @@
+#![allow(clippy::unnecessary_wraps)]
+
 const SPIRV_BIN: &[u8] = include_bytes!("wgpu_example_shader.spv");
 
 fn validate_compiled(_input: &[u8]) -> Option<Result<(), spirv_tools::Error>> {

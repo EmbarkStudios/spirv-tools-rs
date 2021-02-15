@@ -52,7 +52,7 @@ fn compiled_matches_binary() {
 
     if idisasm != cdisasm {
         let changeset = difference::Changeset::new(&idisasm, &cdisasm, "\n");
-        assert!(false, "{}", changeset);
+        panic!("{}", changeset);
     }
 
     val.validate(iopt_output, None)

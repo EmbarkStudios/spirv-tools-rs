@@ -133,6 +133,7 @@ pub fn to_binary(bytes: &[u8]) -> Result<&[u32], crate::Error> {
         });
     }
 
+    #[allow(clippy::size_of_in_element_count)]
     Ok(unsafe {
         std::slice::from_raw_parts(
             bytes.as_ptr() as *const u32,
