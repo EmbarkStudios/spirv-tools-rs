@@ -81,8 +81,9 @@ impl Assembler for CompiledAssembler {
 
             match res {
                 shared::SpirvResult::Success => {
-                    if text.is_null() && !options.print {
-                        return Err(crate::error::Error {
+                    if text.is_null() {
+                        if !options.print {
+                            return Err(crate::error::Error {
                             inner: shared::SpirvResult::InternalError,
                             diagnostic: Some(
                                 "spirv disassemble indicated success but did not return valid text"
@@ -90,6 +91,9 @@ impl Assembler for CompiledAssembler {
                                     .into(),
                             ),
                         });
+                        } else {
+                            return Ok(String::default());
+                        }
                     }
 
                     // Sanity check the text first
