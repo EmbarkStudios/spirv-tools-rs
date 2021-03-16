@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [0.5.0] - 2021-03-16
 ### Changed
 - [PR#18](https://github.com/EmbarkStudios/spirv-tools-rs/pull/18) updated the upstream spirv-tools to `v2021.0-dev`, `SPIRV-Tools v2021.0-dev v2020.5-198-g5af051b0`.
 - [PR#18](https://github.com/EmbarkStudios/spirv-tools-rs/pull/18) changed `Assembler::disassemble` to return a `Option<String>` instead of just `String` for an `Ok`, in the cases where the call succeeded, but the actual string was null/empty.
@@ -44,7 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added initial implementation, which includes the assembler, validator, and most of the optimizer, which meets the current needs of rust-gpu.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.2.0...0.3.0
