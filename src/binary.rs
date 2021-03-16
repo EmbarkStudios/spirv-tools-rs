@@ -77,10 +77,10 @@ impl AsRef<[u32]> for Binary {
         match self {
             #[cfg(feature = "use-compiled-tools")]
             Self::External(bin) => bin.as_ref(),
-            Self::OwnedU32(v) => &v,
+            Self::OwnedU32(v) => v,
             Self::OwnedU8(v) => {
                 // If you hit a panic here it's because try_from wasn't used ;)
-                to_binary(&v).unwrap()
+                to_binary(v).unwrap()
             }
         }
     }
@@ -91,8 +91,8 @@ impl AsRef<[u8]> for Binary {
         match self {
             #[cfg(feature = "use-compiled-tools")]
             Self::External(bin) => bin.as_ref(),
-            Self::OwnedU32(v) => from_binary(&v),
-            Self::OwnedU8(v) => &v,
+            Self::OwnedU32(v) => from_binary(v),
+            Self::OwnedU8(v) => v,
         }
     }
 }

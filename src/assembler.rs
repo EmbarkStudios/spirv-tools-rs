@@ -106,7 +106,7 @@ pub trait Assembler: Default {
         &self,
         binary: impl AsRef<[u32]>,
         options: DisassembleOptions,
-    ) -> Result<String, crate::error::Error>;
+    ) -> Result<Option<String>, crate::error::Error>;
 }
 
 pub fn create(te: Option<crate::TargetEnv>) -> impl Assembler {

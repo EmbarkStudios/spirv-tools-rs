@@ -4,8 +4,6 @@ unmaintained = "deny"
 yanked = "deny"
 notice = "deny"
 ignore = [
-    # Difference is unmaintained, but we only use it for testing and it works fine
-    "RUSTSEC-2020-0095",
 ]
 
 [licenses]

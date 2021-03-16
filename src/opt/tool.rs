@@ -123,6 +123,7 @@ impl Optimizer for ToolOptimizer {
 }
 
 fn pass_to_string(pass: super::Passes) -> Option<&'static str> {
+    #[allow(clippy::enum_glob_use)]
     use super::Passes::*;
 
     Some(match pass {

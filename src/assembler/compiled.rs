@@ -59,7 +59,7 @@ impl Assembler for CompiledAssembler {
         &self,
         binary: impl AsRef<[u32]>,
         options: super::DisassembleOptions,
-    ) -> Result<String, crate::error::Error> {
+    ) -> Result<Option<String>, crate::error::Error> {
         unsafe {
             let mut text = std::ptr::null_mut();
             let mut diagnostic = std::ptr::null_mut();
@@ -82,18 +82,7 @@ impl Assembler for CompiledAssembler {
             match res {
                 shared::SpirvResult::Success => {
                     if text.is_null() {
-                        if !options.print {
-                            return Err(crate::error::Error {
-                            inner: shared::SpirvResult::InternalError,
-                            diagnostic: Some(
-                                "spirv disassemble indicated success but did not return valid text"
-                                    .to_owned()
-                                    .into(),
-                            ),
-                        });
-                        } else {
-                            return Ok(String::default());
-                        }
+                        return Ok(None);
                     }
 
                     // Sanity check the text first
@@ -101,11 +90,11 @@ impl Assembler for CompiledAssembler {
                         (*text).data as *const u8,
                         (*text).length,
                     ))
-                    .map(|disasm| disasm.to_owned())
-                    .map_err(|_| crate::error::Error {
+                    .map(|disasm| Some(disasm.to_owned()))
+                    .map_err(|e| crate::error::Error {
                         inner: shared::SpirvResult::InvalidText,
                         diagnostic: Some(
-                            "spirv disassemble returned non-utf8 text".to_owned().into(),
+                            format!("spirv disassemble returned non-utf8 text: {}", e).into(),
                         ),
                     });
 

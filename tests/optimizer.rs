@@ -45,14 +45,18 @@ fn compiled_matches_binary() {
 
     let idisasm = assembler
         .disassemble(&iopt_output, spv::assembler::DisassembleOptions::default())
+        .unwrap()
         .unwrap();
     let cdisasm = assembler
         .disassemble(&copt_output, spv::assembler::DisassembleOptions::default())
+        .unwrap()
         .unwrap();
 
     if idisasm != cdisasm {
-        let changeset = difference::Changeset::new(&idisasm, &cdisasm, "\n");
-        panic!("{}", changeset);
+        let diff = similar::TextDiff::from_lines(&idisasm, &cdisasm);
+        eprintln!("{}", diff.unified_diff().header("cli", "compiled"));
+
+        panic!("the disassembled text for the cli and the compiled dissassembler did not match");
     }
 
     val.validate(iopt_output, None)
