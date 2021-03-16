@@ -51,8 +51,10 @@ fn compiled_matches_binary() {
         .unwrap();
 
     if idisasm != cdisasm {
-        let changeset = difference::Changeset::new(&idisasm, &cdisasm, "\n");
-        panic!("{}", changeset);
+        let diff = similar::TextDiff::from_lines(&idisasm, &cdisasm);
+        eprintln!("{}", diff.unified_diff().header("cli", "compiled"));
+
+        panic!("the disassembled text for the cli and the compiled dissassembler did not match");
     }
 
     val.validate(iopt_output, None)
