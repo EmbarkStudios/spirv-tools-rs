@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Changed
+- [PR#18](https://github.com/EmbarkStudios/spirv-tools-rs/pull/18) updated the upstream spirv-tools to `v2021.0-dev`, `SPIRV-Tools v2021.0-dev v2020.5-198-g5af051b0`.
+- [PR#18](https://github.com/EmbarkStudios/spirv-tools-rs/pull/18) changed `Assembler::disassemble` to return a `Option<String>` instead of just `String` for an `Ok`, in the cases where the call succeeded, but the actual string was null/empty.
+
 ## [0.4.0] - 2021-02-01
 ### Changed
-- [PR#15](https://github.com/EmbarkStudios/spirv-tools-rs/pull/15) updated the upstream spirv-tools to `v2020.7-dev", "SPIRV-Tools v2020.7-dev v2020.6-50-g0a3a1712`.
+- [PR#15](https://github.com/EmbarkStudios/spirv-tools-rs/pull/15) updated the upstream spirv-tools to `v2020.7-dev`, `SPIRV-Tools v2020.7-dev v2020.6-50-g0a3a1712`.
 
 ### Fixed
 - [PR#14](https://github.com/EmbarkStudios/spirv-tools-rs/pull/14) fixed an issue where an error was reported if the disassembled text was directly printed. Thanks [@Danielmelody](https://github.com/Danielmelody)!
