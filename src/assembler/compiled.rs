@@ -91,10 +91,10 @@ impl Assembler for CompiledAssembler {
                         (*text).length,
                     ))
                     .map(|disasm| Some(disasm.to_owned()))
-                    .map_err(|_| crate::error::Error {
+                    .map_err(|e| crate::error::Error {
                         inner: shared::SpirvResult::InvalidText,
                         diagnostic: Some(
-                            "spirv disassemble returned non-utf8 text".to_owned().into(),
+                            format!("spirv disassemble returned non-utf8 text: {}", e).into(),
                         ),
                     });
 

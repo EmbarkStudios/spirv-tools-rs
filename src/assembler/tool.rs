@@ -64,9 +64,9 @@ impl Assembler for ToolAssembler {
         let cmd_output = crate::cmd::exec(cmd, Some(bytes), crate::cmd::Output::Retrieve)?;
 
         String::from_utf8(cmd_output.binary)
-            .map_err(|_| crate::error::Error {
+            .map_err(|e| crate::error::Error {
                 inner: spirv_tools_sys::shared::SpirvResult::InvalidText,
-                diagnostic: Some("spirv disassemble returned non-utf8 text".to_owned().into()),
+                diagnostic: Some(format!("spirv disassemble returned non-utf8 text: {}", e).into()),
             })
             .map(|s| if s.is_empty() { None } else { Some(s) })
     }
