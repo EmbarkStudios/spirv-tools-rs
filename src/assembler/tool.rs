@@ -32,7 +32,7 @@ impl Assembler for ToolAssembler {
         &self,
         binary: impl AsRef<[u32]>,
         options: super::DisassembleOptions,
-    ) -> Result<String, crate::error::Error> {
+    ) -> Result<Option<String>, crate::error::Error> {
         let mut cmd = std::process::Command::new("spirv-dis");
 
         if options.color {
@@ -63,10 +63,12 @@ impl Assembler for ToolAssembler {
 
         let cmd_output = crate::cmd::exec(cmd, Some(bytes), crate::cmd::Output::Retrieve)?;
 
-        String::from_utf8(cmd_output.binary).map_err(|_| crate::error::Error {
-            inner: spirv_tools_sys::shared::SpirvResult::InvalidText,
-            diagnostic: Some("spirv disassemble returned non-utf8 text".to_owned().into()),
-        })
+        String::from_utf8(cmd_output.binary)
+            .map_err(|_| crate::error::Error {
+                inner: spirv_tools_sys::shared::SpirvResult::InvalidText,
+                diagnostic: Some("spirv disassemble returned non-utf8 text".to_owned().into()),
+            })
+            .map(|s| if s.is_empty() { None } else { Some(s) })
     }
 }
 

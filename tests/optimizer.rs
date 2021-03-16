@@ -45,9 +45,11 @@ fn compiled_matches_binary() {
 
     let idisasm = assembler
         .disassemble(&iopt_output, spv::assembler::DisassembleOptions::default())
+        .unwrap()
         .unwrap();
     let cdisasm = assembler
         .disassemble(&copt_output, spv::assembler::DisassembleOptions::default())
+        .unwrap()
         .unwrap();
 
     if idisasm != cdisasm {
