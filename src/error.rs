@@ -15,10 +15,10 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.diagnostic {
             Some(diag) => f.write_fmt(format_args!(
-                "{}:{}:{} - {}",
-                self.inner, diag.line, diag.column, diag.message
+                "error:{}:{} - {}",
+                diag.line, diag.column, diag.message
             )),
-            None => f.write_fmt(format_args!("{}", self.inner)),
+            None => f.write_str("an unknown error occurred"),
         }
     }
 }
