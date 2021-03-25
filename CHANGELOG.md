@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Changed
+- [PR#20](https://github.com/EmbarkStudios/spirv-tools-rs/pull/20) changed the format of `Error::Display` to not include the spirv result code as it differs between compiled and tool mode since the spirv binaries don't provide the actual error that occurred.
+
 ## [0.5.0] - 2021-03-16
 ### Changed
 - [PR#18](https://github.com/EmbarkStudios/spirv-tools-rs/pull/18) updated the upstream spirv-tools to `v2021.0-dev`, `SPIRV-Tools v2021.0-dev v2020.5-198-g5af051b0`.
