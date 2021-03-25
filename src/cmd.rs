@@ -48,7 +48,10 @@ impl From<CmdError> for crate::error::Error {
                 );
 
                 Self {
-                    inner: SpirvResult::InternalError, // this isn't really correct
+                    // this isn't really correct, but the spirv binaries don't
+                    // provide the error code in any meaningful way, either by the
+                    // status code of the binary, or in diagnostic output
+                    inner: SpirvResult::InternalError,
                     diagnostic: Some(diagnostic),
                 }
             }

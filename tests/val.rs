@@ -26,14 +26,16 @@ fn validate_tool(_input: &[u8]) -> Option<Result<(), spirv_tools::Error>> {
 
 #[test]
 fn gets_error_message() {
-    let cexpected_msg = "invalid cfg:0:0 - Loop header 6[%loop_header] is targeted by 2 back-edge blocks but the standard requires exactly one\n  %loop_header = OpLabel\n";
-    let texpected_msg = "internal error:0:0 - Loop header 6[%loop_header] is targeted by 2 back-edge blocks but the standard requires exactly one";
+    let cexpected_msg = "error:0:0 - Loop header 6[%loop_header] is targeted by 2 back-edge blocks but the standard requires exactly one\n  %loop_header = OpLabel\n";
+    let texpected_msg = "error:0:0 - Loop header 6[%loop_header] is targeted by 2 back-edge blocks but the standard requires exactly one";
     match (validate_compiled(SPIRV_BIN), validate_tool(SPIRV_BIN)) {
         (Some(resc), Some(rest)) => {
-            // assert_eq!(resc, rest);
+            let cstr = resc.unwrap_err().to_string();
+            let tstr = rest.unwrap_err().to_string();
+            assert_eq!(&cstr[..111], &tstr[..111]);
 
-            assert_eq!(resc.unwrap_err().to_string(), cexpected_msg);
-            assert_eq!(rest.unwrap_err().to_string(), texpected_msg);
+            assert_eq!(cstr, cexpected_msg);
+            assert_eq!(tstr, texpected_msg);
         }
         (Some(resc), None) => {
             assert_eq!(resc.unwrap_err().to_string(), cexpected_msg);
