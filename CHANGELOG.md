@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [0.6.0] - 2021-03-25
 ### Changed
 - [PR#20](https://github.com/EmbarkStudios/spirv-tools-rs/pull/20) changed the format of `Error::Display` to not include the spirv result code as it differs between compiled and tool mode since the spirv binaries don't provide the actual error that occurred.
 
@@ -48,7 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added initial implementation, which includes the assembler, validator, and most of the optimizer, which meets the current needs of rust-gpu.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.5.0...HEAD
+[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.6.0...HEAD
+[0.6.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.0...0.3.1
