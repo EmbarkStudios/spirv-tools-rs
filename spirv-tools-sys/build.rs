@@ -296,4 +296,7 @@ fn main() {
 
     build.cpp(true);
     build.compile("spirv-tools");
+
+    println!("cargo:rerun-if-changed=spirv-tools");
+    println!("cargo:rerun-if-changed=spirv-headers");
 }
