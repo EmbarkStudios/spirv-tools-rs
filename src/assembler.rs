@@ -12,6 +12,7 @@ pub struct AssemblerOptions {
     pub preserve_numeric_ids: bool,
 }
 
+#[allow(clippy::from_over_into)]
 impl Into<u32> for AssemblerOptions {
     fn into(self) -> u32 {
         // This is weird, the "none" is 1, so I'm not sure if that means having
@@ -59,6 +60,7 @@ impl Default for DisassembleOptions {
     }
 }
 
+#[allow(clippy::from_over_into)]
 impl Into<u32> for DisassembleOptions {
     fn into(self) -> u32 {
         let mut res = 0;

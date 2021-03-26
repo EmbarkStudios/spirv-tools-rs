@@ -10,6 +10,7 @@ pub struct OptimizerOptions {
 
 #[derive(Copy, Clone, Debug)]
 #[repr(C)]
+#[allow(clippy::upper_case_acronyms)]
 pub enum Passes {
     // Creates a null pass.
     // A null pass does nothing to the SPIR-V module to be optimized.
@@ -584,113 +585,113 @@ extern "C" {
     /// from time to time.
     pub fn optimizer_register_hlsl_legalization_passes(opt: *mut Optimizer);
 
-// Some passes take arguments, so we create those separately on a
-// case-by-case basis
+    // Some passes take arguments, so we create those separately on a
+    // case-by-case basis
 
-// #[repr(C)]
-// pub struct SpecConstantDefault {
-//     pub id: u32,
-//     pub value_ptr: *const c_char,
-//     pub value_len: usize,
-// }
+    // #[repr(C)]
+    // pub struct SpecConstantDefault {
+    //     pub id: u32,
+    //     pub value_ptr: *const c_char,
+    //     pub value_len: usize,
+    // }
 
-// Creates a set-spec-constant-default-value pass from a mapping from spec-ids
-// to the default values in the form of string.
-// A set-spec-constant-default-value pass sets the default values for the
-// spec constants that have SpecId decorations (i.e., those defined by
-// OpSpecConstant{|True|False} instructions).
-// SetSpecConstantDefaultValuePass(
-//     const std::unordered_map<uint32_t, std::string>& id_value_map);
+    // Creates a set-spec-constant-default-value pass from a mapping from spec-ids
+    // to the default values in the form of string.
+    // A set-spec-constant-default-value pass sets the default values for the
+    // spec constants that have SpecId decorations (i.e., those defined by
+    // OpSpecConstant{|True|False} instructions).
+    // SetSpecConstantDefaultValuePass(
+    //     const std::unordered_map<uint32_t, std::string>& id_value_map);
 
-// Create a pass to instrument OpDebugPrintf instructions.
-// This pass replaces all OpDebugPrintf instructions with instructions to write
-// a record containing the string id and the all specified values into a special
-// printf output buffer (if space allows). This pass is designed to support
-// the printf validation in the Vulkan validation layers.
-//
-// The instrumentation will write buffers in debug descriptor set |desc_set|.
-// It will write |shader_id| in each output record to identify the shader
-// module which generated the record.
-// InstDebugPrintfPass(uint32_t desc_set,
-//     uint32_t shader_id);
+    // Create a pass to instrument OpDebugPrintf instructions.
+    // This pass replaces all OpDebugPrintf instructions with instructions to write
+    // a record containing the string id and the all specified values into a special
+    // printf output buffer (if space allows). This pass is designed to support
+    // the printf validation in the Vulkan validation layers.
+    //
+    // The instrumentation will write buffers in debug descriptor set |desc_set|.
+    // It will write |shader_id| in each output record to identify the shader
+    // module which generated the record.
+    // InstDebugPrintfPass(uint32_t desc_set,
+    //     uint32_t shader_id);
 
-// Create a pass to instrument bindless descriptor checking
-// This pass instruments all bindless references to check that descriptor
-// array indices are inbounds, and if the descriptor indexing extension is
-// enabled, that the descriptor has been initialized. If the reference is
-// invalid, a record is written to the debug output buffer (if space allows)
-// and a null value is returned. This pass is designed to support bindless
-// validation in the Vulkan validation layers.
-//
-// TODO(greg-lunarg): Add support for buffer references. Currently only does
-// checking for image references.
-//
-// Dead code elimination should be run after this pass as the original,
-// potentially invalid code is not removed and could cause undefined behavior,
-// including crashes. It may also be beneficial to run Simplification
-// (ie Constant Propagation), DeadBranchElim and BlockMerge after this pass to
-// optimize instrument code involving the testing of compile-time constants.
-// It is also generally recommended that this pass (and all
-// instrumentation passes) be run after any legalization and optimization
-// passes. This will give better analysis for the instrumentation and avoid
-// potentially de-optimizing the instrument code, for example, inlining
-// the debug record output function throughout the module.
-//
-// The instrumentation will read and write buffers in debug
-// descriptor set |desc_set|. It will write |shader_id| in each output record
-// to identify the shader module which generated the record.
-// |input_length_enable| controls instrumentation of runtime descriptor array
-// references, and |input_init_enable| controls instrumentation of descriptor
-// initialization checking, both of which require input buffer support.
-// InstBindlessCheckPass(
-//     uint32_t desc_set, uint32_t shader_id, bool input_length_enable = false,
-//     bool input_init_enable = false, bool input_buff_oob_enable = false);
+    // Create a pass to instrument bindless descriptor checking
+    // This pass instruments all bindless references to check that descriptor
+    // array indices are inbounds, and if the descriptor indexing extension is
+    // enabled, that the descriptor has been initialized. If the reference is
+    // invalid, a record is written to the debug output buffer (if space allows)
+    // and a null value is returned. This pass is designed to support bindless
+    // validation in the Vulkan validation layers.
+    //
+    // TODO(greg-lunarg): Add support for buffer references. Currently only does
+    // checking for image references.
+    //
+    // Dead code elimination should be run after this pass as the original,
+    // potentially invalid code is not removed and could cause undefined behavior,
+    // including crashes. It may also be beneficial to run Simplification
+    // (ie Constant Propagation), DeadBranchElim and BlockMerge after this pass to
+    // optimize instrument code involving the testing of compile-time constants.
+    // It is also generally recommended that this pass (and all
+    // instrumentation passes) be run after any legalization and optimization
+    // passes. This will give better analysis for the instrumentation and avoid
+    // potentially de-optimizing the instrument code, for example, inlining
+    // the debug record output function throughout the module.
+    //
+    // The instrumentation will read and write buffers in debug
+    // descriptor set |desc_set|. It will write |shader_id| in each output record
+    // to identify the shader module which generated the record.
+    // |input_length_enable| controls instrumentation of runtime descriptor array
+    // references, and |input_init_enable| controls instrumentation of descriptor
+    // initialization checking, both of which require input buffer support.
+    // InstBindlessCheckPass(
+    //     uint32_t desc_set, uint32_t shader_id, bool input_length_enable = false,
+    //     bool input_init_enable = false, bool input_buff_oob_enable = false);
 
-// // Create a pass to instrument physical buffer address checking
-// // This pass instruments all physical buffer address references to check that
-// // all referenced bytes fall in a valid buffer. If the reference is
-// // invalid, a record is written to the debug output buffer (if space allows)
-// // and a null value is returned. This pass is designed to support buffer
-// // address validation in the Vulkan validation layers.
-// //
-// // Dead code elimination should be run after this pass as the original,
-// // potentially invalid code is not removed and could cause undefined behavior,
-// // including crashes. Instruction simplification would likely also be
-// // beneficial. It is also generally recommended that this pass (and all
-// // instrumentation passes) be run after any legalization and optimization
-// // passes. This will give better analysis for the instrumentation and avoid
-// // potentially de-optimizing the instrument code, for example, inlining
-// // the debug record output function throughout the module.
-// //
-// // The instrumentation will read and write buffers in debug
-// // descriptor set |desc_set|. It will write |shader_id| in each output record
-// // to identify the shader module which generated the record.
-// InstBuffAddrCheckPass(uint32_t desc_set,
-//                                                  uint32_t shader_id);
+    // // Create a pass to instrument physical buffer address checking
+    // // This pass instruments all physical buffer address references to check that
+    // // all referenced bytes fall in a valid buffer. If the reference is
+    // // invalid, a record is written to the debug output buffer (if space allows)
+    // // and a null value is returned. This pass is designed to support buffer
+    // // address validation in the Vulkan validation layers.
+    // //
+    // // Dead code elimination should be run after this pass as the original,
+    // // potentially invalid code is not removed and could cause undefined behavior,
+    // // including crashes. Instruction simplification would likely also be
+    // // beneficial. It is also generally recommended that this pass (and all
+    // // instrumentation passes) be run after any legalization and optimization
+    // // passes. This will give better analysis for the instrumentation and avoid
+    // // potentially de-optimizing the instrument code, for example, inlining
+    // // the debug record output function throughout the module.
+    // //
+    // // The instrumentation will read and write buffers in debug
+    // // descriptor set |desc_set|. It will write |shader_id| in each output record
+    // // to identify the shader module which generated the record.
+    // InstBuffAddrCheckPass(uint32_t desc_set,
+    //                                                  uint32_t shader_id);
 
-// Create loop unroller pass.
-// Creates a pass to unroll loops which have the "Unroll" loop control
-// mask set. The loops must meet a specific criteria in order to be unrolled
-// safely this criteria is checked before doing the unroll by the
-// LoopUtils::CanPerformUnroll method. Any loop that does not meet the criteria
-// won't be unrolled. See CanPerformUnroll LoopUtils.h for more information.
-//LoopUnrollPass(bool fully_unroll, int factor = 0);
+    // Create loop unroller pass.
+    // Creates a pass to unroll loops which have the "Unroll" loop control
+    // mask set. The loops must meet a specific criteria in order to be unrolled
+    // safely this criteria is checked before doing the unroll by the
+    // LoopUtils::CanPerformUnroll method. Any loop that does not meet the criteria
+    // won't be unrolled. See CanPerformUnroll LoopUtils.h for more information.
+    //LoopUnrollPass(bool fully_unroll, int factor = 0);
 
-// Create scalar replacement pass.
-// This pass replaces composite function scope variables with variables for each
-// element if those elements are accessed individually.  The parameter is a
-// limit on the number of members in the composite variable that the pass will
-// consider replacing.
-//ScalarReplacementPass(uint32_t size_limit = 100);
+    // Create scalar replacement pass.
+    // This pass replaces composite function scope variables with variables for each
+    // element if those elements are accessed individually.  The parameter is a
+    // limit on the number of members in the composite variable that the pass will
+    // consider replacing.
+    //ScalarReplacementPass(uint32_t size_limit = 100);
 
-// Creates a loop fission pass.
-// This pass will split all top level loops whose register pressure exceedes the
-// given |threshold|.
-//LoopFissionPass(size_t threshold);
+    // Creates a loop fission pass.
+    // This pass will split all top level loops whose register pressure exceedes the
+    // given |threshold|.
+    //LoopFissionPass(size_t threshold);
 
-// Creates a loop fusion pass.
-// This pass will look for adjacent loops that are compatible and legal to be
-// fused. The fuse all such loops as long as the register usage for the fused
-// loop stays under the threshold defined by |max_registers_per_loop|.
-//LoopFusionPass(size_t max_registers_per_loop);
+    // Creates a loop fusion pass.
+    // This pass will look for adjacent loops that are compatible and legal to be
+    // fused. The fuse all such loops as long as the register usage for the fused
+    // loop stays under the threshold defined by |max_registers_per_loop|.
+    //LoopFusionPass(size_t max_registers_per_loop);
 }

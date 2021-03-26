@@ -15,7 +15,7 @@ use std::fmt;
 /// Consult the description of API entry points for specific rules.
 #[derive(Copy, Clone, Debug, PartialEq)]
 #[repr(C)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum TargetEnv {
     /// SPIR-V 1.0 latest revision, no other restrictions.
     Universal_1_0,
