@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Fixed
+- [PR#21](https://github.com/EmbarkStudios/spirv-tools-rs/pull/21) updated spirv-tools C++ code to address a GCC11 warning which caused compile failures due to warnings as errors.
+- [PR#23](https://github.com/EmbarkStudios/spirv-tools-rs/pull/23) fixed [#22](https://github.com/EmbarkStudios/spirv-tools-rs/issues/22) by correcting a mismatch between optimization passes between the compiled and tool mode of the optimizer.
+
 ## [0.6.0] - 2021-03-25
 ### Changed
 - [PR#20](https://github.com/EmbarkStudios/spirv-tools-rs/pull/20) changed the format of `Error::Display` to not include the spirv result code as it differs between compiled and tool mode since the spirv binaries don't provide the actual error that occurred.
