@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [0.6.1] - 2021-05-05
 ### Fixed
 - [PR#21](https://github.com/EmbarkStudios/spirv-tools-rs/pull/21) updated spirv-tools C++ code to address a GCC11 warning which caused compile failures due to warnings as errors.
 - [PR#23](https://github.com/EmbarkStudios/spirv-tools-rs/pull/23) fixed [#22](https://github.com/EmbarkStudios/spirv-tools-rs/issues/22) by correcting a mismatch between optimization passes between the compiled and tool mode of the optimizer.
@@ -53,7 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added initial implementation, which includes the assembler, validator, and most of the optimizer, which meets the current needs of rust-gpu.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.6.1...HEAD
+[0.6.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.3.1...0.4.0
