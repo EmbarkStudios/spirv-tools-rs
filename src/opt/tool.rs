@@ -128,7 +128,6 @@ fn pass_to_string(pass: super::Passes) -> Option<&'static str> {
 
     Some(match pass {
         Null => return None,
-        StripAtomicCounterMemory => "strip-atomic-counter-memory",
         StripDebugInfo => "strip-debug",
         StripReflectInfo => "strip-reflect",
         EliminateDeadFunctions => "eliminate-dead-functions",
@@ -177,11 +176,7 @@ fn pass_to_string(pass: super::Passes) -> Option<&'static str> {
         CombineAccessChains => "combine-access-chains",
         UpgradeMemoryModel => "upgrade-memory-model",
         CodeSinking => "code-sink",
-        GenerateWebGPUInitializers => "generate-webgpu-initializers",
         FixStorageClass => "fix-storage-class",
-        LegalizeVectorShuffle => "legalize-vector-shuffle",
-        DecomposeInitializedVariables => "decompose-initialized-variables",
-        SplitInvalidUnreachable => "split-invalid-unreachable",
         GraphicsRobustAccess => "graphics-robust-access",
         DescriptorScalarReplacement => "descriptor-scalar-replacement",
         WrapOpKill => "wrap-opkill",
