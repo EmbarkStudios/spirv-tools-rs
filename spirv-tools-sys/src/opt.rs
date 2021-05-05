@@ -15,12 +15,6 @@ pub enum Passes {
     // Creates a null pass.
     // A null pass does nothing to the SPIR-V module to be optimized.
     Null,
-    // Creates a strip-atomic-counter-memory pass.
-    // A strip-atomic-counter-memory pass removes all usages of the
-    // AtomicCounterMemory bit in Memory Semantics bitmasks. This bit is a no-op in
-    // Vulkan, so isn't needed in that env. And the related capability is not
-    // allowed in WebGPU, so it is not allowed in that env.
-    StripAtomicCounterMemory,
     // Creates a strip-debug-info pass.
     // A strip-debug-info pass removes all debug instructions (as documented in
     // Section 3.32.2 of the SPIR-V spec) of the SPIR-V module to be optimized.
@@ -430,25 +424,10 @@ pub enum Passes {
     // Create a pass to do code sinking.  Code sinking is a transformation
     // where an instruction is moved into a more deeply nested construct.
     CodeSinking,
-    // Create a pass to adds initializers for OpVariable calls that require them
-    // in WebGPU. Currently this pass naively initializes variables that are
-    // missing an initializer with a null value. In the future it may initialize
-    // variables to the first value stored in them, if that is a constant.
-    GenerateWebGPUInitializers,
     // Create a pass to fix incorrect storage classes.  In order to make code
     // generation simpler, DXC may generate code where the storage classes do not
     // match up correctly.  This pass will fix the errors that it can.
     FixStorageClass,
-    // Create a pass to legalize OpVectorShuffle operands going into WebGPU. WebGPU
-    // forbids using 0xFFFFFFFF, which indicates an undefined result, so this pass
-    // converts those literals to 0.
-    LegalizeVectorShuffle,
-    // Create a pass to decompose initialized variables into a seperate variable
-    // declaration and an initial store.
-    DecomposeInitializedVariables,
-    // Create a pass to attempt to split up invalid unreachable merge-blocks and
-    // continue-targets to legalize for WebGPU.
-    SplitInvalidUnreachable,
     // Creates a graphics robust access pass.
     //
     // This pass injects code to clamp indexed accesses to buffers and internal
