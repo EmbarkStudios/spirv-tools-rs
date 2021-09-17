@@ -152,9 +152,9 @@ fn pass_to_string(pass: super::Passes) -> Option<&'static str> {
         IfConversion => "if-conversion",
         InlineExhaustive => "inline-entry-points-exhaustive",
         InlineOpaque => "inline-entry-points-opaque",
-        // This is only part of the --legalize-hlsl meta pass
-        InterpolateFixup => return None,
         InsertExtractElim => "eliminate-insert-extract",
+        // This is only part of the --legalize-hlsl meta pass
+        InterpolateFixup | Null => return None,
         LocalAccessChainConvert => "convert-local-access-chains",
         LocalMultiStoreElim => "eliminate-local-multi-store",
         LocalRedundancyElimination => "local-redundancy-elimination",
@@ -164,7 +164,6 @@ fn pass_to_string(pass: super::Passes) -> Option<&'static str> {
         LoopPeeling => "loop-peeling",
         LoopUnswitch => "loop-unswitch",
         MergeReturn => "merge-return",
-        Null => return None,
         PrivateToLocal => "private-to-local",
         PropagateLineInfo => "propagate-line-info",
         ReduceLoadSize => "reduce-load-size",
