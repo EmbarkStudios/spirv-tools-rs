@@ -4,60 +4,62 @@
 struct Optimus;
 
 enum Passes {
-    Null,
-    StripDebugInfo,
-    StripReflectInfo,
+    AggressiveDCE,
+    AmdExtToKhr,
+    BlockMerge,
+    CCP,
+    CFGCleanup,
+    CodeSinking,
+    CombineAccessChains,
+    CompactIds,
+    ConvertRelaxedToHalf,
+    CopyPropagateArrays,
+    DeadBranchElim,
+    DeadInsertElim,
+    DeadVariableElimination,
+    DescriptorScalarReplacement,
+    EliminateDeadConstant,
     EliminateDeadFunctions,
     EliminateDeadMembers,
+    FixStorageClass,
     FlattenDecoration,
-    FreezeSpecConstantValue,
     FoldSpecConstantOpAndComposite,
-    UnifyConstant,
-    EliminateDeadConstant,
-    StrengthReduction,
-    BlockMerge,
+    FreezeSpecConstantValue,
+    GraphicsRobustAccess,
+    IfConversion,
     InlineExhaustive,
     InlineOpaque,
-    LocalSingleBlockLoadStoreElim,
-    DeadBranchElim,
-    LocalMultiStoreElim,
-    LocalAccessChainConvert,
-    LocalSingleStoreElim,
     InsertExtractElim,
-    DeadInsertElim,
-    AggressiveDCE,
-    PropagateLineInfo,
-    RedundantLineInfoElim,
-    CompactIds,
-    RemoveDuplicates,
-    CFGCleanup,
-    DeadVariableElimination,
-    MergeReturn,
+    InterpolateFixup,
+    LocalAccessChainConvert,
+    LocalMultiStoreElim,
     LocalRedundancyElimination,
+    LocalSingleBlockLoadStoreElim,
+    LocalSingleStoreElim,
     LoopInvariantCodeMotion,
     LoopPeeling,
     LoopUnswitch,
-    RedundancyElimination,
+    MergeReturn,
+    Null,
     PrivateToLocal,
-    CCP,
-    Workaround1209,
-    IfConversion,
+    PropagateLineInfo,
+    ReduceLoadSize,
+    RedundancyElimination,
+    RedundantLineInfoElim,
+    RelaxFloatOps,
+    RemoveDuplicates,
+    RemoveUnusedInterfaceVariables,
     ReplaceInvalidOpcode,
     Simplification,
     SSARewrite,
-    ConvertRelaxedToHalf,
-    RelaxFloatOps,
-    CopyPropagateArrays,
-    VectorDCE,
-    ReduceLoadSize,
-    CombineAccessChains,
+    StrengthReduction,
+    StripDebugInfo,
+    StripReflectInfo,
+    UnifyConstant,
     UpgradeMemoryModel,
-    CodeSinking,
-    FixStorageClass,
-    GraphicsRobustAccess,
-    DescriptorScalarReplacement,
+    VectorDCE,
+    Workaround1209,
     WrapOpKill,
-    AmdExtToKhr,
 };
 
 typedef void (*message_callback)(
@@ -162,60 +164,62 @@ extern "C" {
         spvtools::Optimizer* op = (spvtools::Optimizer*)optimizer;
 
         switch (pass) {
-            PASS(Null)
-            PASS(StripDebugInfo)
-            PASS(StripReflectInfo)
+            PASS(AggressiveDCE)
+            PASS(AmdExtToKhr)
+            PASS(BlockMerge)
+            PASS(CCP)
+            PASS(CFGCleanup)
+            PASS(CodeSinking)
+            PASS(CombineAccessChains)
+            PASS(CompactIds)
+            PASS(ConvertRelaxedToHalf)
+            PASS(CopyPropagateArrays)
+            PASS(DeadBranchElim)
+            PASS(DeadInsertElim)
+            PASS(DeadVariableElimination)
+            PASS(DescriptorScalarReplacement)
+            PASS(EliminateDeadConstant)
             PASS(EliminateDeadFunctions)
             PASS(EliminateDeadMembers)
+            PASS(FixStorageClass)
             PASS(FlattenDecoration)
-            PASS(FreezeSpecConstantValue)
             PASS(FoldSpecConstantOpAndComposite)
-            PASS(UnifyConstant)
-            PASS(EliminateDeadConstant)
-            PASS(StrengthReduction)
-            PASS(BlockMerge)
+            PASS(FreezeSpecConstantValue)
+            PASS(GraphicsRobustAccess)
+            PASS(IfConversion)
             PASS(InlineExhaustive)
             PASS(InlineOpaque)
-            PASS(LocalSingleBlockLoadStoreElim)
-            PASS(DeadBranchElim)
-            PASS(LocalMultiStoreElim)
-            PASS(LocalAccessChainConvert)
-            PASS(LocalSingleStoreElim)
             PASS(InsertExtractElim)
-            PASS(DeadInsertElim)
-            PASS(AggressiveDCE)
-            PASS(PropagateLineInfo)
-            PASS(RedundantLineInfoElim)
-            PASS(CompactIds)
-            PASS(RemoveDuplicates)
-            PASS(CFGCleanup)
-            PASS(DeadVariableElimination)
-            PASS(MergeReturn)
+            PASS(InterpolateFixup)
+            PASS(LocalAccessChainConvert)
+            PASS(LocalMultiStoreElim)
             PASS(LocalRedundancyElimination)
+            PASS(LocalSingleBlockLoadStoreElim)
+            PASS(LocalSingleStoreElim)
             PASS(LoopInvariantCodeMotion)
             PASS(LoopPeeling)
             PASS(LoopUnswitch)
-            PASS(RedundancyElimination)
+            PASS(MergeReturn)
+            PASS(Null)
             PASS(PrivateToLocal)
-            PASS(CCP)
-            PASS(Workaround1209)
-            PASS(IfConversion)
+            PASS(PropagateLineInfo)
+            PASS(ReduceLoadSize)
+            PASS(RedundancyElimination)
+            PASS(RedundantLineInfoElim)
+            PASS(RelaxFloatOps)
+            PASS(RemoveDuplicates)
+            PASS(RemoveUnusedInterfaceVariables)
             PASS(ReplaceInvalidOpcode)
             PASS(Simplification)
             PASS(SSARewrite)
-            PASS(ConvertRelaxedToHalf)
-            PASS(RelaxFloatOps)
-            PASS(CopyPropagateArrays)
-            PASS(VectorDCE)
-            PASS(ReduceLoadSize)
-            PASS(CombineAccessChains)
+            PASS(StrengthReduction)
+            PASS(StripDebugInfo)
+            PASS(StripReflectInfo)
+            PASS(UnifyConstant)
             PASS(UpgradeMemoryModel)
-            PASS(CodeSinking)
-            PASS(FixStorageClass)
-            PASS(GraphicsRobustAccess)
-            PASS(DescriptorScalarReplacement)
+            PASS(VectorDCE)
+            PASS(Workaround1209)
             PASS(WrapOpKill)
-            PASS(AmdExtToKhr)
         }
     }
 

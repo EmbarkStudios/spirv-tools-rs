@@ -70,7 +70,7 @@ impl Optimizer for CompiledOptimizer {
 
             let mut ctx = Ctx { cb: msg_callback };
 
-            let cb_ctx: *mut std::ffi::c_void = std::mem::transmute(&mut ctx);
+            let cb_ctx: *mut std::ffi::c_void = (&mut ctx as *mut Ctx<'_>).cast();
 
             extern "C" fn callback(
                 level: spirv_tools_sys::diagnostics::MessageLevel,
@@ -80,7 +80,7 @@ impl Optimizer for CompiledOptimizer {
                 ctx: *mut std::ffi::c_void,
             ) {
                 unsafe {
-                    let ctx: &mut Ctx<'_> = &mut *(ctx as *mut Ctx<'_>);
+                    let ctx: &mut Ctx<'_> = &mut *(ctx.cast::<Ctx<'_>>());
 
                     let msg = error::Message::from_parts(level, source, source_pos, msg);
 
