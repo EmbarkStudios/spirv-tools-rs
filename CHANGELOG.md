@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Changed
+- [PR#26](https://github.com/EmbarkStudios/spirv-tools-rs/pull/26) updated to SPIRV-Tools [v2021.3](https://github.com/KhronosGroup/SPIRV-Tools/releases/tag/v2021.3).
+
 ## [0.6.1] - 2021-05-05
 ### Fixed
 - [PR#21](https://github.com/EmbarkStudios/spirv-tools-rs/pull/21) updated spirv-tools C++ code to address a GCC11 warning which caused compile failures due to warnings as errors.
