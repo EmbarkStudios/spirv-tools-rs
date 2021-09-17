@@ -200,6 +200,6 @@ where
     F: FnMut(Message),
 {
     fn on_message(&mut self, msg: Message) {
-        self(msg)
+        self(msg);
     }
 }

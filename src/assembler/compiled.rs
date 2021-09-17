@@ -24,7 +24,7 @@ impl Assembler for CompiledAssembler {
 
             let res = assembler::assemble(
                 self.inner,
-                text.as_ptr() as *const _,
+                text.as_ptr().cast(),
                 text.len(),
                 options.into(),
                 &mut binary,
@@ -68,7 +68,7 @@ impl Assembler for CompiledAssembler {
 
             let res = assembler::disassemble(
                 self.inner,
-                binary.as_ptr() as *const _,
+                binary.as_ptr().cast(),
                 binary.len(),
                 options.into(),
                 &mut text,
@@ -87,7 +87,7 @@ impl Assembler for CompiledAssembler {
 
                     // Sanity check the text first
                     let disassemble_res = std::str::from_utf8(std::slice::from_raw_parts(
-                        (*text).data as *const u8,
+                        (*text).data.cast::<u8>(),
                         (*text).length,
                     ))
                     .map(|disasm| Some(disasm.to_owned()))
