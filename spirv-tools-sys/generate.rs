@@ -42,6 +42,13 @@ fn main() {
     vendor_table("nonsemantic.clspvreflection", None);
     vendor_table("opencl.debuginfo.100", Some("CLDEBUG100_"));
 
+    // This will eventually be moved to spirv-headers
+    vendor_table_local("nonsemantic.vulkan.debuginfo.100", Some("VKDEBUG100_"));
+    generate_header(
+        "NonSemanticVulkanDebugInfo100",
+        "nonsemantic.vulkan.debuginfo.100",
+    );
+
     registry_table();
 }
 
@@ -61,6 +68,22 @@ fn vendor_table(which: &str, prefix: Option<&str>) {
         "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
         format!(
             "--extinst-vendor-grammar=spirv-headers/include/spirv/unified1/extinst.{}.grammar.json",
+            which
+        ),
+        format!("--vendor-insts-output=generated/{}.insts.inc", which),
+        format!(
+            "--vendor-operand-kind-prefix={}",
+            prefix.unwrap_or_default()
+        ),
+    ])
+    .expect("failed to generate vendor table");
+}
+
+fn vendor_table_local(which: &str, prefix: Option<&str>) {
+    python(&[
+        "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
+        format!(
+            "--extinst-vendor-grammar=spirv-tools/source/extinst.{}.grammar.json",
             which
         ),
         format!("--vendor-insts-output=generated/{}.insts.inc", which),
@@ -112,4 +135,16 @@ fn opencl_table(version: &str) {
         format!("--extinst-opencl-grammar=spirv-headers/include/spirv/{}/extinst.opencl.std.100.grammar.json", version),
         "--opencl-insts-output=generated/opencl.std.insts.inc".to_owned(),
     ]).expect("failed to generate glsl table from spirv-headers");
+}
+
+fn generate_header(header_name: &str, grammar: &str) {
+    python(&[
+        "spirv-tools/utils/generate_language_headers.py".to_owned(),
+        format!(
+            "--extinst-grammar=spirv-tools/source/extinst.{}.grammar.json",
+            grammar
+        ),
+        format!("--extinst-output-path=generated/{}.h", header_name),
+    ])
+    .expect("failed to generate C header")
 }
