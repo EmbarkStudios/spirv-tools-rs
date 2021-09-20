@@ -91,8 +91,7 @@ impl Validator for CompiledValidator {
                 None => val::validate(self.inner, &input, &mut diagnostic),
             };
 
-            use std::convert::TryFrom;
-            let diagnostic = crate::error::Diagnostic::try_from(diagnostic).ok();
+            let diagnostic = crate::error::Diagnostic::from_diag(diagnostic).ok();
 
             match res {
                 shared::SpirvResult::Success => Ok(()),
