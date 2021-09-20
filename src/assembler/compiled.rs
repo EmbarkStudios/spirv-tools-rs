@@ -32,8 +32,7 @@ impl Assembler for CompiledAssembler {
             );
 
             // Always wrap diagnostic, it's fine if it's null
-            use std::convert::TryFrom;
-            let diagnostic = crate::error::Diagnostic::try_from(diagnostic).ok();
+            let diagnostic = crate::error::Diagnostic::from_diag(diagnostic).ok();
 
             match res {
                 shared::SpirvResult::Success => {
@@ -76,8 +75,7 @@ impl Assembler for CompiledAssembler {
             );
 
             // Always wrap diagnostic, it's fine if it's null
-            use std::convert::TryFrom;
-            let diagnostic = crate::error::Diagnostic::try_from(diagnostic).ok();
+            let diagnostic = crate::error::Diagnostic::from_diag(diagnostic).ok();
 
             match res {
                 shared::SpirvResult::Success => {

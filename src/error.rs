@@ -39,11 +39,10 @@ pub struct Diagnostic {
 }
 
 #[cfg(feature = "use-compiled-tools")]
-impl std::convert::TryFrom<*mut diagnostics::Diagnostic> for Diagnostic {
-    type Error = shared::SpirvResult;
-
-    #[allow(clippy::not_unsafe_ptr_arg_deref)]
-    fn try_from(diag: *mut diagnostics::Diagnostic) -> Result<Self, Self::Error> {
+impl Diagnostic {
+    pub(crate) fn from_diag(
+        diag: *mut diagnostics::Diagnostic,
+    ) -> Result<Self, shared::SpirvResult> {
         unsafe {
             if diag.is_null() {
                 return Err(shared::SpirvResult::Success);

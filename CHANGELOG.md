@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Fixed
+- [PR#28](https://github.com/EmbarkStudios/spirv-tools-rs/pull/28) fixed [#27](https://github.com/EmbarkStudios/spirv-tools-rs/issues/27) by changing the `TryFrom` into a crate private method.
+
 ## [0.7.0] - 2021-09-17
 ### Changed
 - [PR#26](https://github.com/EmbarkStudios/spirv-tools-rs/pull/26) updated to SPIRV-Tools [v2021.3](https://github.com/KhronosGroup/SPIRV-Tools/releases/tag/v2021.3).
