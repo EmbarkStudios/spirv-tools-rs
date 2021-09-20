@@ -40,29 +40,27 @@ pub struct Diagnostic {
 
 #[cfg(feature = "use-compiled-tools")]
 impl Diagnostic {
-    pub(crate) fn from_diag(
+    pub(crate) unsafe fn from_diag(
         diag: *mut diagnostics::Diagnostic,
     ) -> Result<Self, shared::SpirvResult> {
-        unsafe {
-            if diag.is_null() {
-                return Err(shared::SpirvResult::Success);
-            }
-
-            let message = std::ffi::CStr::from_ptr((*diag).error)
-                .to_string_lossy()
-                .to_string();
-
-            let res = Self {
-                line: (*diag).position.line,
-                column: (*diag).position.column,
-                index: (*diag).position.index,
-                message,
-                is_text: (*diag).is_text_source,
-            };
-
-            diagnostics::diagnostic_destroy(diag);
-            Ok(res)
+        if diag.is_null() {
+            return Err(shared::SpirvResult::Success);
         }
+
+        let message = std::ffi::CStr::from_ptr((*diag).error)
+            .to_string_lossy()
+            .to_string();
+
+        let res = Self {
+            line: (*diag).position.line,
+            column: (*diag).position.column,
+            index: (*diag).position.index,
+            message,
+            is_text: (*diag).is_text_source,
+        };
+
+        diagnostics::diagnostic_destroy(diag);
+        Ok(res)
     }
 }
 
