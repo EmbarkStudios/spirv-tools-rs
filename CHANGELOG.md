@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [0.7.1] - 2021-09-20
 ### Fixed
 - [PR#28](https://github.com/EmbarkStudios/spirv-tools-rs/pull/28) fixed [#27](https://github.com/EmbarkStudios/spirv-tools-rs/issues/27) by changing the `TryFrom` into a crate private method.
 
@@ -61,7 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added initial implementation, which includes the assembler, validator, and most of the optimizer, which meets the current needs of rust-gpu.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.7.0...HEAD
+[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.7.1...HEAD
+[0.7.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.6.1...0.7.0
 [0.6.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.5.0...0.6.0
