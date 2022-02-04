@@ -102,25 +102,24 @@ pub fn exec(
 
     let output = child.wait_with_output().map_err(CmdError::Io)?;
 
-    let code = match output.status.code() {
-        Some(code) => code,
-        None => {
-            #[cfg(unix)]
-            let message = {
-                use std::os::unix::process::ExitStatusExt;
-                format!(
-                    "process terminated by signal: {}",
-                    output.status.signal().unwrap_or(666)
-                )
-            };
-            #[cfg(not(unix))]
-            let message = "process ended in an unknown state".to_owned();
+    let code = if let Some(code) = output.status.code() {
+        code
+    } else {
+        #[cfg(unix)]
+        let message = {
+            use std::os::unix::process::ExitStatusExt;
+            format!(
+                "process terminated by signal: {}",
+                output.status.signal().unwrap_or(666)
+            )
+        };
+        #[cfg(not(unix))]
+        let message = "process ended in an unknown state".to_owned();
 
-            return Err(CmdError::ToolErrors {
-                exit_code: -1,
-                messages: vec![Message::fatal(message)],
-            });
-        }
+        return Err(CmdError::ToolErrors {
+            exit_code: -1,
+            messages: vec![Message::fatal(message)],
+        });
     };
 
     // stderr should only ever contain error+ level diagnostics

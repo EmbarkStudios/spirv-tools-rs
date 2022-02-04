@@ -78,7 +78,6 @@ impl Optimizer for ToolOptimizer {
             msg_callback.on_message(msg);
         }
 
-        use std::convert::TryFrom;
         crate::binary::Binary::try_from(cmd_output.binary)
     }
 
