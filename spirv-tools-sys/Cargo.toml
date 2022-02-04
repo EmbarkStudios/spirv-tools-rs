@@ -8,6 +8,7 @@ edition = "2018"
 # This is the same license for the underlying SPIRV-Tools code
 license = "Apache-2.0"
 documentation = "https://docs.rs/spirv-tools-sys"
+readme = "README.md"
 homepage = "https://github.com/EmbarkStudios/spirv-tools-rs"
 keywords = ["spir-v", "rust-gpu"]
 categories = ["rendering::data-formats"]
@@ -21,6 +22,7 @@ include = [
     "src/**",
     "build.rs",
     "Cargo.toml",
+    "README.md",
 ]
 
 [features]
