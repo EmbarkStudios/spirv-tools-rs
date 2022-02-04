@@ -1,4 +1,6 @@
-# 🛠 spirv-tools
+<div align="center">
+
+# `🛠 spirv-tools`
 
 [![Embark](https://img.shields.io/badge/embark-open%20source-blueviolet.svg)](https://embark.dev)
 [![Embark](https://img.shields.io/badge/discord-ark-%237289da.svg?logo=discord)](https://discord.gg/dAuKfZS)
@@ -9,13 +11,15 @@
 
 This crate is an unofficial wrapper for [SPIR-V Tools], its primary use case is for the [rust-gpu] project.
 
+</div>
+
 ## Status
 
 This is a very rough wrapper around the assembler, validator, and (most of the) optimizer tools available from [SPIR-V Tools], which is enough for the current needs of the [rust-gpu] project. See that project's code for more thorough usage examples.
 
 ## Contributing
 
-[![Contributor Covenant](https://img.shields.io/badge/contributor%20covenant-v1.4-ff69b4.svg)](../main/CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/contributor%20covenant-v1.4-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 We welcome community contributions to this project.
 
@@ -25,8 +29,8 @@ Please read our [Contributor Guide](CONTRIBUTING.md) for more information on how
 
 Licensed under either of
 
-* Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-* MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+* Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or <http://www.apache.org/licenses/LICENSE-2.0>)
+* MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
 
 at your option.
 
