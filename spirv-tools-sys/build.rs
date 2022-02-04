@@ -151,6 +151,7 @@ fn opt(build: &mut Build) {
             "scalar_replacement_pass",
             "set_spec_constant_default_value_pass",
             "simplification_pass",
+            "spread_volatile_semantics",
             "ssa_rewrite_pass",
             "strength_reduction_pass",
             "strip_debug_info_pass",
