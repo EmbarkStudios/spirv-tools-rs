@@ -1,3 +1,5 @@
+<!-- markdownlint-disable blanks-around-headings blanks-around-lists no-duplicate-heading -->
+
 # Changelog
 All notable changes to this project will be documented in this file.
 
@@ -6,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Changed
+- [PR#29](https://github.com/EmbarkStudios/spirv-tools-rs/pull/29) updated to v2022.1 of spirv-tools.
+
 ## [0.7.1] - 2021-09-20
 ### Fixed
 - [PR#28](https://github.com/EmbarkStudios/spirv-tools-rs/pull/28) fixed [#27](https://github.com/EmbarkStudios/spirv-tools-rs/issues/27) by changing the `TryFrom` into a crate private method.
