@@ -128,7 +128,7 @@ pub fn exec(
         let messages: Vec<_> = match String::from_utf8(output.stderr) {
             Ok(errors) => errors
                 .lines()
-                .filter_map(|line| crate::error::Message::parse(line))
+                .filter_map(crate::error::Message::parse)
                 .collect(),
             Err(e) => vec![Message::fatal(format!(
                 "unable to read stderr ({}) but process exited with code {}",
