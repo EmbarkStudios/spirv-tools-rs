@@ -177,7 +177,7 @@ fn pass_to_string(pass: super::Passes) -> Option<&'static str> {
         SSARewrite => "ssa-rewrite",
         StrengthReduction => "strength-reduction",
         StripDebugInfo => "strip-debug",
-        StripReflectInfo => "strip-reflect",
+        StripNonSemanticInfo => "strip-nonsemantic",
         UnifyConstant => "unify-const",
         UpgradeMemoryModel => "upgrade-memory-model",
         VectorDCE => "vector-dce",

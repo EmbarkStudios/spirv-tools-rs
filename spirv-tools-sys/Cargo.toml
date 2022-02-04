@@ -10,7 +10,9 @@ license = "Apache-2.0"
 documentation = "https://docs.rs/spirv-tools-sys"
 homepage = "https://github.com/EmbarkStudios/spirv-tools-rs"
 keywords = ["spir-v", "rust-gpu"]
+categories = ["rendering::data-formats"]
 build = "build.rs"
+links = "spirv-tools"
 include = [
     "generated",
     "spirv-headers/include",
