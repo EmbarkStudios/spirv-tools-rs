@@ -102,25 +102,24 @@ pub fn exec(
 
     let output = child.wait_with_output().map_err(CmdError::Io)?;
 
-    let code = match output.status.code() {
-        Some(code) => code,
-        None => {
-            #[cfg(unix)]
-            let message = {
-                use std::os::unix::process::ExitStatusExt;
-                format!(
-                    "process terminated by signal: {}",
-                    output.status.signal().unwrap_or(666)
-                )
-            };
-            #[cfg(not(unix))]
-            let message = "process ended in an unknown state".to_owned();
+    let code = if let Some(code) = output.status.code() {
+        code
+    } else {
+        #[cfg(unix)]
+        let message = {
+            use std::os::unix::process::ExitStatusExt;
+            format!(
+                "process terminated by signal: {}",
+                output.status.signal().unwrap_or(666)
+            )
+        };
+        #[cfg(not(unix))]
+        let message = "process ended in an unknown state".to_owned();
 
-            return Err(CmdError::ToolErrors {
-                exit_code: -1,
-                messages: vec![Message::fatal(message)],
-            });
-        }
+        return Err(CmdError::ToolErrors {
+            exit_code: -1,
+            messages: vec![Message::fatal(message)],
+        });
     };
 
     // stderr should only ever contain error+ level diagnostics
@@ -128,7 +127,7 @@ pub fn exec(
         let messages: Vec<_> = match String::from_utf8(output.stderr) {
             Ok(errors) => errors
                 .lines()
-                .filter_map(|line| crate::error::Message::parse(line))
+                .filter_map(crate::error::Message::parse)
                 .collect(),
             Err(e) => vec![Message::fatal(format!(
                 "unable to read stderr ({}) but process exited with code {}",

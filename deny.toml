@@ -3,26 +3,20 @@ vulnerability = "deny"
 unmaintained = "deny"
 yanked = "deny"
 notice = "deny"
-ignore = [
-]
+ignore = []
 
 [licenses]
 unlicensed = "deny"
-allow = [
-    "MIT",
-    "Apache-2.0",
-]
+allow = ["MIT", "Apache-2.0"]
 copyleft = "deny"
 allow-osi-fsf-free = "neither"
 default = "deny"
-exceptions = [
-]
+exceptions = [{ name = "instant", allow = ["BSD-3-Clause"] }]
 
 [bans]
 multiple-versions = "deny"
 wildcards = "deny"
-skip = [
-]
+skip = []
 
 [sources]
 unknown-registry = "deny"

@@ -24,7 +24,6 @@ impl Assembler for ToolAssembler {
         let cmd_output =
             crate::cmd::exec(cmd, Some(text.as_bytes()), crate::cmd::Output::Retrieve)?;
 
-        use std::convert::TryFrom;
         crate::binary::Binary::try_from(cmd_output.binary)
     }
 

@@ -54,7 +54,7 @@ enum Passes {
     SSARewrite,
     StrengthReduction,
     StripDebugInfo,
-    StripReflectInfo,
+    StripNonSemanticInfo,
     UnifyConstant,
     UpgradeMemoryModel,
     VectorDCE,
@@ -214,7 +214,7 @@ extern "C" {
             PASS(SSARewrite)
             PASS(StrengthReduction)
             PASS(StripDebugInfo)
-            PASS(StripReflectInfo)
+            PASS(StripNonSemanticInfo)
             PASS(UnifyConstant)
             PASS(UpgradeMemoryModel)
             PASS(VectorDCE)
