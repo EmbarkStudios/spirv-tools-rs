@@ -144,6 +144,7 @@ fn opt(build: &mut Build) {
             "relax_float_ops_pass",
             "remove_duplicates_pass",
             "remove_unused_interface_variables_pass",
+            "replace_desc_array_access_using_var_index",
             "replace_invalid_opc",
             "scalar_analysis",
             "scalar_analysis_simplification",
