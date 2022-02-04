@@ -43,21 +43,23 @@ fn main() {
     vendor_table("opencl.debuginfo.100", Some("CLDEBUG100_"));
 
     // This will eventually be moved to spirv-headers
-    vendor_table_local("nonsemantic.vulkan.debuginfo.100", Some("VKDEBUG100_"));
+    vendor_table("nonsemantic.shader.debuginfo.100", Some("SHDEBUG100_"));
     generate_header(
-        "NonSemanticVulkanDebugInfo100",
-        "nonsemantic.vulkan.debuginfo.100",
+        "NonSemanticShaderDebugInfo100",
+        "nonsemantic.shader.debuginfo.100",
     );
 
     registry_table();
 }
 
+const HEADERS: &str = "spirv-headers/include/spirv";
+
 fn enum_string_mapping(version: &str) {
     python(&[
         "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
-        format!("--spirv-core-grammar=spirv-headers/include/spirv/{}/spirv.core.grammar.json", version),
-        "--extinst-debuginfo-grammar=spirv-headers/include/spirv/unified1/extinst.debuginfo.grammar.json".to_owned(),
-        "--extinst-cldebuginfo100-grammar=spirv-headers/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json".to_owned(),
+        format!("--spirv-core-grammar={HEADERS}/{version}/spirv.core.grammar.json"),
+        format!("--extinst-debuginfo-grammar={HEADERS}/unified1/extinst.debuginfo.grammar.json"),
+        format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
         "--extension-enum-output=generated/extension_enum.inc".to_owned(),
         "--enum-string-mapping-output=generated/enum_string_mapping.inc".to_owned(),
     ]).expect("failed to generate enum includes from spirv-headers");
@@ -66,11 +68,8 @@ fn enum_string_mapping(version: &str) {
 fn vendor_table(which: &str, prefix: Option<&str>) {
     python(&[
         "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
-        format!(
-            "--extinst-vendor-grammar=spirv-headers/include/spirv/unified1/extinst.{}.grammar.json",
-            which
-        ),
-        format!("--vendor-insts-output=generated/{}.insts.inc", which),
+        format!("--extinst-vendor-grammar={HEADERS}/unified1/extinst.{which}.grammar.json",),
+        format!("--vendor-insts-output=generated/{which}.insts.inc"),
         format!(
             "--vendor-operand-kind-prefix={}",
             prefix.unwrap_or_default()
@@ -79,30 +78,30 @@ fn vendor_table(which: &str, prefix: Option<&str>) {
     .expect("failed to generate vendor table");
 }
 
-fn vendor_table_local(which: &str, prefix: Option<&str>) {
-    python(&[
-        "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
-        format!(
-            "--extinst-vendor-grammar=spirv-tools/source/extinst.{}.grammar.json",
-            which
-        ),
-        format!("--vendor-insts-output=generated/{}.insts.inc", which),
-        format!(
-            "--vendor-operand-kind-prefix={}",
-            prefix.unwrap_or_default()
-        ),
-    ])
-    .expect("failed to generate vendor table");
-}
+// fn vendor_table_local(which: &str, prefix: Option<&str>) {
+//     python(&[
+//         "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
+//         format!(
+//             "--extinst-vendor-grammar=spirv-tools/source/extinst.{}.grammar.json",
+//             which
+//         ),
+//         format!("--vendor-insts-output=generated/{}.insts.inc", which),
+//         format!(
+//             "--vendor-operand-kind-prefix={}",
+//             prefix.unwrap_or_default()
+//         ),
+//     ])
+//     .expect("failed to generate vendor table");
+// }
 
 fn core_table(which: &str) {
     python(&[
         "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
-        "--spirv-core-grammar=spirv-headers/include/spirv/unified1/spirv.core.grammar.json".to_owned(),
-        format!("--core-insts-output=generated/core.insts-{}.inc", which),
-        "--extinst-debuginfo-grammar=spirv-headers/include/spirv/unified1/extinst.debuginfo.grammar.json".to_owned(),
-        "--extinst-cldebuginfo100-grammar=spirv-headers/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json".to_owned(),
-        format!("--operand-kinds-output=generated/operand.kinds-{}.inc", which),
+        format!("--spirv-core-grammar={HEADERS}/unified1/spirv.core.grammar.json"),
+        format!("--core-insts-output=generated/core.insts-{which}.inc"),
+        format!("--extinst-debuginfo-grammar={HEADERS}/unified1/extinst.debuginfo.grammar.json"),
+        format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
+        format!("--operand-kinds-output=generated/operand.kinds-{which}.inc"),
     ]).expect("failed to generate core table from spirv-headers");
 }
 
@@ -118,10 +117,10 @@ fn registry_table() {
 fn glsl_table(version: &str) {
     python(&[
         "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
-        format!("--spirv-core-grammar=spirv-headers/include/spirv/{}/spirv.core.grammar.json", version),
-        "--extinst-debuginfo-grammar=spirv-headers/include/spirv/unified1/extinst.debuginfo.grammar.json".to_owned(),
-        "--extinst-cldebuginfo100-grammar=spirv-headers/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json".to_owned(),
-        format!("--extinst-glsl-grammar=spirv-headers/include/spirv/{}/extinst.glsl.std.450.grammar.json", version),
+        format!("--spirv-core-grammar={HEADERS}/{version}/spirv.core.grammar.json"),
+        format!("--extinst-debuginfo-grammar={HEADERS}/unified1/extinst.debuginfo.grammar.json"),
+        format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
+        format!("--extinst-glsl-grammar={HEADERS}/{version}/extinst.glsl.std.450.grammar.json"),
         "--glsl-insts-output=generated/glsl.std.450.insts.inc".to_owned(),
     ]).expect("failed to generate glsl table from spirv-headers");
 }
@@ -129,10 +128,10 @@ fn glsl_table(version: &str) {
 fn opencl_table(version: &str) {
     python(&[
         "spirv-tools/utils/generate_grammar_tables.py".to_owned(),
-        format!("--spirv-core-grammar=spirv-headers/include/spirv/{}/spirv.core.grammar.json", version),
-        "--extinst-debuginfo-grammar=spirv-headers/include/spirv/unified1/extinst.debuginfo.grammar.json".to_owned(),
-        "--extinst-cldebuginfo100-grammar=spirv-headers/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json".to_owned(),
-        format!("--extinst-opencl-grammar=spirv-headers/include/spirv/{}/extinst.opencl.std.100.grammar.json", version),
+        format!("--spirv-core-grammar={HEADERS}/{version}/spirv.core.grammar.json"),
+        format!("--extinst-debuginfo-grammar={HEADERS}/unified1/extinst.debuginfo.grammar.json"),
+        format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
+        format!("--extinst-opencl-grammar={HEADERS}/{version}/extinst.opencl.std.100.grammar.json"),
         "--opencl-insts-output=generated/opencl.std.insts.inc".to_owned(),
     ]).expect("failed to generate glsl table from spirv-headers");
 }
@@ -140,10 +139,7 @@ fn opencl_table(version: &str) {
 fn generate_header(header_name: &str, grammar: &str) {
     python(&[
         "spirv-tools/utils/generate_language_headers.py".to_owned(),
-        format!(
-            "--extinst-grammar=spirv-tools/source/extinst.{}.grammar.json",
-            grammar
-        ),
+        format!("--extinst-grammar={HEADERS}/unified1/extinst.{grammar}.grammar.json",),
         format!("--extinst-output-path=generated/{}.h", header_name),
     ])
     .expect("failed to generate C header")
