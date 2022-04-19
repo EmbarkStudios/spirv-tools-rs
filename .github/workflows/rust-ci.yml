@@ -4,6 +4,11 @@ on:
       - main
   pull_request:
 
+# Cancel PR actions on new commits
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 name: CI
 jobs:
   lint:
