@@ -60,6 +60,7 @@ static const SpvCapability pygen_variable_caps_KernelAttributesINTEL[] = {SpvCap
 static const SpvCapability pygen_variable_caps_Linkage[] = {SpvCapabilityLinkage};
 static const SpvCapability pygen_variable_caps_LoopFuseINTEL[] = {SpvCapabilityLoopFuseINTEL};
 static const SpvCapability pygen_variable_caps_Matrix[] = {SpvCapabilityMatrix};
+static const SpvCapability pygen_variable_caps_MemoryAccessAliasingINTEL[] = {SpvCapabilityMemoryAccessAliasingINTEL};
 static const SpvCapability pygen_variable_caps_MeshShadingNV[] = {SpvCapabilityMeshShadingNV};
 static const SpvCapability pygen_variable_caps_MinLod[] = {SpvCapabilityMinLod};
 static const SpvCapability pygen_variable_caps_MultiView[] = {SpvCapabilityMultiView};
@@ -160,8 +161,10 @@ static const spvtools::Extension pygen_variable_exts_SPV_INTEL_kernel_attributes
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_long_constant_composite[] = {spvtools::Extension::kSPV_INTEL_long_constant_composite};
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_loop_fuse[] = {spvtools::Extension::kSPV_INTEL_loop_fuse};
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_media_block_io[] = {spvtools::Extension::kSPV_INTEL_media_block_io};
+static const spvtools::Extension pygen_variable_exts_SPV_INTEL_memory_access_aliasing[] = {spvtools::Extension::kSPV_INTEL_memory_access_aliasing};
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_optnone[] = {spvtools::Extension::kSPV_INTEL_optnone};
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_shader_integer_functions2[] = {spvtools::Extension::kSPV_INTEL_shader_integer_functions2};
+static const spvtools::Extension pygen_variable_exts_SPV_INTEL_split_barrier[] = {spvtools::Extension::kSPV_INTEL_split_barrier};
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_subgroups[] = {spvtools::Extension::kSPV_INTEL_subgroups};
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_unstructured_loop_controls[] = {spvtools::Extension::kSPV_INTEL_unstructured_loop_controls};
 static const spvtools::Extension pygen_variable_exts_SPV_INTEL_usm_storage_classes[] = {spvtools::Extension::kSPV_INTEL_usm_storage_classes};
@@ -192,6 +195,7 @@ static const spvtools::Extension pygen_variable_exts_SPV_KHR_shader_draw_paramet
 static const spvtools::Extension pygen_variable_exts_SPV_KHR_storage_buffer_storage_classSPV_KHR_variable_pointers[] = {spvtools::Extension::kSPV_KHR_storage_buffer_storage_class, spvtools::Extension::kSPV_KHR_variable_pointers};
 static const spvtools::Extension pygen_variable_exts_SPV_KHR_subgroup_uniform_control_flow[] = {spvtools::Extension::kSPV_KHR_subgroup_uniform_control_flow};
 static const spvtools::Extension pygen_variable_exts_SPV_KHR_subgroup_vote[] = {spvtools::Extension::kSPV_KHR_subgroup_vote};
+static const spvtools::Extension pygen_variable_exts_SPV_KHR_uniform_group_instructions[] = {spvtools::Extension::kSPV_KHR_uniform_group_instructions};
 static const spvtools::Extension pygen_variable_exts_SPV_KHR_variable_pointers[] = {spvtools::Extension::kSPV_KHR_variable_pointers};
 static const spvtools::Extension pygen_variable_exts_SPV_KHR_vulkan_memory_model[] = {spvtools::Extension::kSPV_KHR_vulkan_memory_model};
 static const spvtools::Extension pygen_variable_exts_SPV_KHR_workgroup_memory_explicit_layout[] = {spvtools::Extension::kSPV_KHR_workgroup_memory_explicit_layout};
@@ -315,7 +319,9 @@ static const spv_operand_desc_t pygen_variable_MemoryAccessEntries[] = {
   {"MakePointerVisible", 0x0010, 1, pygen_variable_caps_VulkanMemoryModel, 1, pygen_variable_exts_SPV_KHR_vulkan_memory_model, {SPV_OPERAND_TYPE_SCOPE_ID}, SPV_SPIRV_VERSION_WORD(1,5), 0xffffffffu},
   {"MakePointerVisibleKHR", 0x0010, 1, pygen_variable_caps_VulkanMemoryModel, 1, pygen_variable_exts_SPV_KHR_vulkan_memory_model, {SPV_OPERAND_TYPE_SCOPE_ID}, SPV_SPIRV_VERSION_WORD(1,5), 0xffffffffu},
   {"NonPrivatePointer", 0x0020, 1, pygen_variable_caps_VulkanMemoryModel, 1, pygen_variable_exts_SPV_KHR_vulkan_memory_model, {}, SPV_SPIRV_VERSION_WORD(1,5), 0xffffffffu},
-  {"NonPrivatePointerKHR", 0x0020, 1, pygen_variable_caps_VulkanMemoryModel, 1, pygen_variable_exts_SPV_KHR_vulkan_memory_model, {}, SPV_SPIRV_VERSION_WORD(1,5), 0xffffffffu}
+  {"NonPrivatePointerKHR", 0x0020, 1, pygen_variable_caps_VulkanMemoryModel, 1, pygen_variable_exts_SPV_KHR_vulkan_memory_model, {}, SPV_SPIRV_VERSION_WORD(1,5), 0xffffffffu},
+  {"AliasScopeINTELMask", 0x10000, 1, pygen_variable_caps_MemoryAccessAliasingINTEL, 1, pygen_variable_exts_SPV_INTEL_memory_access_aliasing, {SPV_OPERAND_TYPE_ID}, 0xffffffffu, 0xffffffffu},
+  {"NoAliasINTELMask", 0x20000, 1, pygen_variable_caps_MemoryAccessAliasingINTEL, 1, pygen_variable_exts_SPV_INTEL_memory_access_aliasing, {SPV_OPERAND_TYPE_ID}, 0xffffffffu, 0xffffffffu}
 };
 
 static const spv_operand_desc_t pygen_variable_KernelProfilingInfoEntries[] = {
@@ -351,7 +357,8 @@ static const spv_operand_desc_t pygen_variable_SourceLanguageEntries[] = {
   {"OpenCL_C", 3, 0, nullptr, 0, nullptr, {}, SPV_SPIRV_VERSION_WORD(1, 0), 0xffffffffu},
   {"OpenCL_CPP", 4, 0, nullptr, 0, nullptr, {}, SPV_SPIRV_VERSION_WORD(1, 0), 0xffffffffu},
   {"HLSL", 5, 0, nullptr, 0, nullptr, {}, SPV_SPIRV_VERSION_WORD(1, 0), 0xffffffffu},
-  {"CPP_for_OpenCL", 6, 0, nullptr, 0, nullptr, {}, SPV_SPIRV_VERSION_WORD(1, 0), 0xffffffffu}
+  {"CPP_for_OpenCL", 6, 0, nullptr, 0, nullptr, {}, SPV_SPIRV_VERSION_WORD(1, 0), 0xffffffffu},
+  {"SYCL", 7, 0, nullptr, 0, nullptr, {}, SPV_SPIRV_VERSION_WORD(1, 0), 0xffffffffu}
 };
 
 static const spv_operand_desc_t pygen_variable_ExecutionModelEntries[] = {
@@ -461,7 +468,8 @@ static const spv_operand_desc_t pygen_variable_ExecutionModeEntries[] = {
   {"MaxWorkDimINTEL", 5894, 1, pygen_variable_caps_KernelAttributesINTEL, 1, pygen_variable_exts_SPV_INTEL_kernel_attributes, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu},
   {"NoGlobalOffsetINTEL", 5895, 1, pygen_variable_caps_KernelAttributesINTEL, 1, pygen_variable_exts_SPV_INTEL_kernel_attributes, {}, 0xffffffffu, 0xffffffffu},
   {"NumSIMDWorkitemsINTEL", 5896, 1, pygen_variable_caps_FPGAKernelAttributesINTEL, 1, pygen_variable_exts_SPV_INTEL_kernel_attributes, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu},
-  {"SchedulerTargetFmaxMhzINTEL", 5903, 1, pygen_variable_caps_FPGAKernelAttributesINTEL, 0, nullptr, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu}
+  {"SchedulerTargetFmaxMhzINTEL", 5903, 1, pygen_variable_caps_FPGAKernelAttributesINTEL, 0, nullptr, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu},
+  {"NamedBarrierCountINTEL", 6417, 1, pygen_variable_caps_VectorComputeINTEL, 0, nullptr, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu}
 };
 
 static const spv_operand_desc_t pygen_variable_StorageClassEntries[] = {
@@ -770,6 +778,8 @@ static const spv_operand_desc_t pygen_variable_DecorationEntries[] = {
   {"PrefetchINTEL", 5902, 1, pygen_variable_caps_FPGAMemoryAccessesINTEL, 0, nullptr, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu},
   {"StallEnableINTEL", 5905, 1, pygen_variable_caps_FPGAClusterAttributesINTEL, 0, nullptr, {}, 0xffffffffu, 0xffffffffu},
   {"FuseLoopsInFunctionINTEL", 5907, 1, pygen_variable_caps_LoopFuseINTEL, 0, nullptr, {}, 0xffffffffu, 0xffffffffu},
+  {"AliasScopeINTEL", 5914, 1, pygen_variable_caps_MemoryAccessAliasingINTEL, 0, nullptr, {SPV_OPERAND_TYPE_ID}, 0xffffffffu, 0xffffffffu},
+  {"NoAliasINTEL", 5915, 1, pygen_variable_caps_MemoryAccessAliasingINTEL, 0, nullptr, {SPV_OPERAND_TYPE_ID}, 0xffffffffu, 0xffffffffu},
   {"BufferLocationINTEL", 5921, 1, pygen_variable_caps_FPGABufferLocationINTEL, 0, nullptr, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu},
   {"IOPipeStorageINTEL", 5944, 1, pygen_variable_caps_IOPipesINTEL, 0, nullptr, {SPV_OPERAND_TYPE_LITERAL_INTEGER}, 0xffffffffu, 0xffffffffu},
   {"FunctionFloatingPointModeINTEL", 6080, 1, pygen_variable_caps_FunctionFloatControlINTEL, 0, nullptr, {SPV_OPERAND_TYPE_LITERAL_INTEGER, SPV_OPERAND_TYPE_FPOPERATION_MODE}, 0xffffffffu, 0xffffffffu},
@@ -1128,6 +1138,7 @@ static const spv_operand_desc_t pygen_variable_CapabilityEntries[] = {
   {"FPGAMemoryAccessesINTEL", 5898, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_fpga_memory_accesses, {}, 0xffffffffu, 0xffffffffu},
   {"FPGAClusterAttributesINTEL", 5904, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_fpga_cluster_attributes, {}, 0xffffffffu, 0xffffffffu},
   {"LoopFuseINTEL", 5906, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_loop_fuse, {}, 0xffffffffu, 0xffffffffu},
+  {"MemoryAccessAliasingINTEL", 5910, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_memory_access_aliasing, {}, 0xffffffffu, 0xffffffffu},
   {"FPGABufferLocationINTEL", 5920, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_fpga_buffer_location, {}, 0xffffffffu, 0xffffffffu},
   {"ArbitraryPrecisionFixedPointINTEL", 5922, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_arbitrary_precision_fixed_point, {}, 0xffffffffu, 0xffffffffu},
   {"USMStorageClassesINTEL", 5935, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_usm_storage_classes, {}, 0xffffffffu, 0xffffffffu},
@@ -1148,7 +1159,9 @@ static const spv_operand_desc_t pygen_variable_CapabilityEntries[] = {
   {"LongConstantCompositeINTEL", 6089, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_long_constant_composite, {}, 0xffffffffu, 0xffffffffu},
   {"OptNoneINTEL", 6094, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_optnone, {}, 0xffffffffu, 0xffffffffu},
   {"AtomicFloat16AddEXT", 6095, 0, nullptr, 1, pygen_variable_exts_SPV_EXT_shader_atomic_float16_add, {}, 0xffffffffu, 0xffffffffu},
-  {"DebugInfoModuleINTEL", 6114, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_debug_module, {}, 0xffffffffu, 0xffffffffu}
+  {"DebugInfoModuleINTEL", 6114, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_debug_module, {}, 0xffffffffu, 0xffffffffu},
+  {"SplitBarrierINTEL", 6141, 0, nullptr, 1, pygen_variable_exts_SPV_INTEL_split_barrier, {}, 0xffffffffu, 0xffffffffu},
+  {"GroupUniformArithmeticKHR", 6400, 0, nullptr, 1, pygen_variable_exts_SPV_KHR_uniform_group_instructions, {}, 0xffffffffu, 0xffffffffu}
 };
 
 static const spv_operand_desc_t pygen_variable_RayQueryIntersectionEntries[] = {
