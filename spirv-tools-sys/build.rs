@@ -143,6 +143,7 @@ fn opt(build: &mut Build) {
             "redundancy_elimination",
             "register_pressure",
             "relax_float_ops_pass",
+            "remove_dontinline_pass",
             "remove_duplicates_pass",
             "remove_unused_interface_variables_pass",
             "replace_desc_array_access_using_var_index",
