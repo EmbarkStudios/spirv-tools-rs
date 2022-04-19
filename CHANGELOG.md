@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Changed
+- [PR#30](https://github.com/EmbarkStudios/spirv-tools-rs/pull/30) updated to [v2022.2](https://github.com/KhronosGroup/SPIRV-Tools/blob/cb96abbf7affd986016f17dd09f9f971138a922b/CHANGES#L6-L43) of spirv-tools.
+
 ## [0.8.0] - 2022-02-04
 ### Changed
 - [PR#29](https://github.com/EmbarkStudios/spirv-tools-rs/pull/29) updated to v2022.1 of spirv-tools.
