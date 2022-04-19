@@ -24,7 +24,7 @@ fn main() {
 
     python(&[
         "spirv-tools/utils/update_build_version.py",
-        "spirv-tools",
+        "spirv-tools/CHANGES",
         "generated/build-version.inc",
     ])
     .expect("failed to generate build version from spirv-headers");
