@@ -91,6 +91,7 @@ fn opt(build: &mut Build) {
             "eliminate_dead_constant_pass",
             "eliminate_dead_functions_pass",
             "eliminate_dead_functions_util",
+            "eliminate_dead_input_components_pass",
             "eliminate_dead_members_pass",
             "feature_manager",
             "fix_storage_class",
