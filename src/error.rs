@@ -29,7 +29,7 @@ impl std::error::Error for Error {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Diagnostic {
     pub line: usize,
     pub column: usize,

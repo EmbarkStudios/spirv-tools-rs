@@ -280,6 +280,7 @@ fn main() {
             .flag("-Wundef")
             .flag("-Wconversion")
             .flag("-Wno-sign-conversion")
+            .flag("-Wno-deprecated-declarations") // suppress warnings about sprintf
             .flag("-std=gnu++11");
     } else if compiler.is_like_clang() {
         build
@@ -298,6 +299,7 @@ fn main() {
             .flag("-Wundef")
             .flag("-Wconversion")
             .flag("-Wno-sign-conversion")
+            .flag("-Wno-deprecated-declarations") // suppress warnings about sprintf
             .flag("-ftemplate-depth=1024")
             .flag("-std=gnu++11");
     }

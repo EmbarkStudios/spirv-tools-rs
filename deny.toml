@@ -3,11 +3,13 @@ vulnerability = "deny"
 unmaintained = "deny"
 yanked = "deny"
 notice = "deny"
-ignore = []
+ignore = [
+    "RUSTSEC-2021-0139", # ansi-term is Unmaintained - it is only a dev dependency
+]
 
 [licenses]
 unlicensed = "deny"
-allow = ["MIT", "Apache-2.0"]
+allow = ["MIT", "Apache-2.0", "Unicode-DFS-2016"]
 copyleft = "deny"
 allow-osi-fsf-free = "neither"
 default = "deny"
