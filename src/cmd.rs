@@ -66,7 +66,7 @@ pub struct CmdOutput {
     pub messages: Vec<Message>,
 }
 
-#[derive(PartialEq, Copy, Clone)]
+#[derive(PartialEq, Eq, Copy, Clone)]
 pub enum Output {
     /// Doesn't try to read stdout for tool output (other than diagnostics)
     Ignore,
