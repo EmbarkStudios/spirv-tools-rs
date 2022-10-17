@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR#30](https://github.com/EmbarkStudios/spirv-tools-rs/pull/30) updated to [v2022.2](https://github.com/KhronosGroup/SPIRV-Tools/blob/cb96abbf7affd986016f17dd09f9f971138a922b/CHANGES#L6-L43) of spirv-tools.
 - [PR#33](https://github.com/EmbarkStudios/spirv-tools-rs/pull/33) updated to [v2022.3](https://github.com/KhronosGroup/SPIRV-Tools/blob/b53d3a6be38b032dedbc72639dfc6249b5e92697/CHANGES#L30-L54) and [v2022.4](https://github.com/KhronosGroup/SPIRV-Tools/blob/b53d3a6be38b032dedbc72639dfc6249b5e92697/CHANGES#L6-L28)
 
+### Fixed
+- [PR#32](https://github.com/EmbarkStudios/spirv-tools-rs/pull/32) fixed compilation on MacOS.
+
 ## [0.8.0] - 2022-02-04
 ### Changed
 - [PR#29](https://github.com/EmbarkStudios/spirv-tools-rs/pull/29) updated to v2022.1 of spirv-tools.
