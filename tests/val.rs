@@ -26,8 +26,8 @@ fn validate_tool(_input: &[u8]) -> Option<Result<(), spirv_tools::Error>> {
 
 #[test]
 fn gets_error_message() {
-    let cexpected_msg = "error:0:0 - Loop header 6[%loop_header] is targeted by 2 back-edge blocks but the standard requires exactly one\n  %loop_header = OpLabel\n";
-    let texpected_msg = "error:0:0 - Loop header 6[%loop_header] is targeted by 2 back-edge blocks but the standard requires exactly one";
+    let cexpected_msg = "error:0:0 - Loop header '6[%loop_header]' is targeted by 2 back-edge blocks but the standard requires exactly one\n  %loop_header = OpLabel\n";
+    let texpected_msg = "error:0:0 - Loop header '6[%loop_header]' is targeted by 2 back-edge blocks but the standard requires exactly one";
     match (validate_compiled(SPIRV_BIN), validate_tool(SPIRV_BIN)) {
         (Some(resc), Some(rest)) => {
             let cstr = resc.unwrap_err().to_string();
