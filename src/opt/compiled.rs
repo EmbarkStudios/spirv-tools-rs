@@ -119,6 +119,7 @@ impl Optimizer for CompiledOptimizer {
                                 column: 0,
                                 index: 0,
                                 message: "spirv optimizer indicated success but did not return a valid binary".to_owned(),
+                                notes: String::new(),
                                 is_text: false,
                             }),
                         });

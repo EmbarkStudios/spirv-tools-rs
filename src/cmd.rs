@@ -21,14 +21,14 @@ impl From<CmdError> for crate::error::Error {
         use crate::SpirvResult;
 
         match ce {
-            CmdError::BinaryNotFound(e) => Self {
+            CmdError::BinaryNotFound(err) => Self {
                 inner: SpirvResult::Unsupported,
-                diagnostic: Some(format!("failed spawn executable: {}", e).into()),
+                diagnostic: Some(format!("failed spawn executable: {err}").into()),
             },
-            CmdError::Io(e) => Self {
+            CmdError::Io(err) => Self {
                 inner: SpirvResult::EndOfStream,
                 diagnostic: Some(
-                    format!("i/o error occurred communicating with executable: {}", e).into(),
+                    format!("i/o error occurred communicating with executable: {err}").into(),
                 ),
             },
             CmdError::ToolErrors {
@@ -40,8 +40,7 @@ impl From<CmdError> for crate::error::Error {
                 let diagnostic = messages.into_iter().last().map_or_else(
                     || {
                         crate::error::Diagnostic::from(format!(
-                            "tool exited with code {} and no output",
-                            exit_code
+                            "tool exited with code `{exit_code}` and no output"
                         ))
                     },
                     crate::error::Diagnostic::from,
@@ -125,13 +124,27 @@ pub fn exec(
     // stderr should only ever contain error+ level diagnostics
     if code != 0 {
         let messages: Vec<_> = match String::from_utf8(output.stderr) {
-            Ok(errors) => errors
-                .lines()
-                .filter_map(crate::error::Message::parse)
-                .collect(),
-            Err(e) => vec![Message::fatal(format!(
-                "unable to read stderr ({}) but process exited with code {}",
-                e, code
+            Ok(errors) => {
+                let mut messages = Vec::new();
+
+                for line in errors.lines() {
+                    if let Some(msg) = crate::error::Message::parse(line) {
+                        messages.push(msg);
+                    } else if let Some(msg) = messages.last_mut() {
+                        if !line.is_empty() {
+                            if !msg.notes.is_empty() {
+                                msg.notes.push('\n');
+                            }
+
+                            msg.notes.push_str(line);
+                        }
+                    }
+                }
+
+                messages
+            }
+            Err(err) => vec![Message::fatal(format!(
+                "unable to read stderr ({err}) but process exited with code {code}",
             ))],
         };
 
