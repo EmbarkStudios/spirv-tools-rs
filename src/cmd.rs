@@ -23,7 +23,7 @@ impl From<CmdError> for crate::error::Error {
         match ce {
             CmdError::BinaryNotFound(err) => Self {
                 inner: SpirvResult::Unsupported,
-                diagnostic: Some(format!("failed spawn executable: {err}").into()),
+                diagnostic: Some(format!("failed to spawn executable: {err}").into()),
             },
             CmdError::Io(err) => Self {
                 inner: SpirvResult::EndOfStream,
