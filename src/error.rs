@@ -136,7 +136,7 @@ impl Message {
                 // the source, but we don't want it, note we don't use trim since
                 // (other than the first \n) there can be significant whitespace
                 // at the beginning
-                full_message[ind + 1..].trim_end().to_owned(),
+                full_message[ind + 1..].trim_end_matches('\n').to_owned(),
             )
         } else {
             (full_message.into_owned(), String::new())
