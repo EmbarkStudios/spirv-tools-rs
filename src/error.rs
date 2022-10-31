@@ -131,12 +131,7 @@ impl Message {
         if let Some(ind) = full_message.find('\n') {
             (
                 full_message[..ind].to_owned(),
-                // The compiled code always adds a trailing newline, even if it
-                // is the last note, presumably since it's copied directly from
-                // the source, but we don't want it, note we don't use trim since
-                // (other than the first \n) there can be significant whitespace
-                // at the beginning
-                full_message[ind + 1..].trim_end_matches('\n').to_owned(),
+                full_message[ind + 1..].to_owned(),
             )
         } else {
             (full_message.into_owned(), String::new())

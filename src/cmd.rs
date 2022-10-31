@@ -123,21 +123,32 @@ pub fn exec(
 
     // stderr should only ever contain error+ level diagnostics
     if code != 0 {
+        use crate::error::*;
         let messages: Vec<_> = match String::from_utf8(output.stderr) {
             Ok(errors) => {
                 let mut messages = Vec::new();
 
                 for line in errors.lines() {
-                    if let Some(msg) = crate::error::Message::parse(line) {
+                    if let Some(msg) = Message::parse(line) {
                         messages.push(msg);
                     } else if let Some(msg) = messages.last_mut() {
-                        if !line.is_empty() {
-                            if !msg.notes.is_empty() {
-                                msg.notes.push('\n');
-                            }
-
-                            msg.notes.push_str(line);
+                        if !msg.notes.is_empty() {
+                            msg.notes.push('\n');
                         }
+
+                        msg.notes.push_str(line);
+                    } else {
+                        // We somewhow got a message that didn't conform to how
+                        // messages are supposed to look, as the first one
+                        messages.push(Message {
+                            level: MessageLevel::Error,
+                            source: None,
+                            line: 0,
+                            column: 0,
+                            index: 0,
+                            message: line.to_owned(),
+                            notes: String::new(),
+                        });
                     }
                 }
 
