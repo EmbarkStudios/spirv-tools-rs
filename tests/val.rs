@@ -26,23 +26,22 @@ fn validate_tool(_input: &[u8]) -> Option<Result<(), spirv_tools::Error>> {
 
 #[test]
 fn gets_error_message() {
-    let cexpected_msg = "error:0:0 - Loop header '6[%loop_header]' is targeted by 2 back-edge blocks but the standard requires exactly one\n  %loop_header = OpLabel\n";
-    let texpected_msg = "error:0:0 - Loop header '6[%loop_header]' is targeted by 2 back-edge blocks but the standard requires exactly one";
-    match (validate_compiled(SPIRV_BIN), validate_tool(SPIRV_BIN)) {
-        (Some(resc), Some(rest)) => {
-            let cstr = resc.unwrap_err().to_string();
-            let tstr = rest.unwrap_err().to_string();
-            assert_eq!(&cstr[..111], &tstr[..111]);
+    let expected_msg = "error:0:0 - Loop header '6[%loop_header]' is targeted by 2 back-edge blocks but the standard requires exactly one";
+    let expected_notes = "  %loop_header = OpLabel\n";
 
-            assert_eq!(cstr, cexpected_msg);
-            assert_eq!(tstr, texpected_msg);
-        }
-        (Some(resc), None) => {
-            assert_eq!(resc.unwrap_err().to_string(), cexpected_msg);
-        }
-        (None, Some(rest)) => {
-            assert_eq!(rest.unwrap_err().to_string(), texpected_msg);
-        }
-        _ => {}
+    for res in validate_compiled(SPIRV_BIN)
+        .into_iter()
+        .chain(validate_tool(SPIRV_BIN).into_iter())
+    {
+        let err = res.unwrap_err();
+        let diag = err.diagnostic.as_ref().unwrap();
+        assert_eq!(diag.line, 0);
+        assert_eq!(diag.column, 0);
+        assert_eq!(diag.message, &expected_msg[12..]);
+        assert_eq!(diag.notes, expected_notes);
+
+        let err_str = err.to_string();
+        assert_eq!(&err_str[..113], expected_msg);
+        assert_eq!(&err_str[113 + 1..], expected_notes);
     }
 }

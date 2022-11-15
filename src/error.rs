@@ -14,10 +14,18 @@ use std::fmt;
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.diagnostic {
-            Some(diag) => f.write_fmt(format_args!(
-                "error:{}:{} - {}",
-                diag.line, diag.column, diag.message
-            )),
+            Some(diag) => {
+                f.write_fmt(format_args!(
+                    "error:{}:{} - {}",
+                    diag.line, diag.column, diag.message
+                ))?;
+
+                if !diag.notes.is_empty() {
+                    f.write_fmt(format_args!("\n{}", diag.notes))?;
+                }
+
+                Ok(())
+            }
             None => f.write_str("an unknown error occurred"),
         }
     }
@@ -35,6 +43,7 @@ pub struct Diagnostic {
     pub column: usize,
     pub index: usize,
     pub message: String,
+    pub notes: String,
     pub is_text: bool,
 }
 
@@ -47,15 +56,14 @@ impl Diagnostic {
             return Err(shared::SpirvResult::Success);
         }
 
-        let message = std::ffi::CStr::from_ptr((*diag).error)
-            .to_string_lossy()
-            .to_string();
+        let (message, notes) = Message::message_and_notes_from_cstr((*diag).error);
 
         let res = Self {
             line: (*diag).position.line,
             column: (*diag).position.column,
             index: (*diag).position.index,
             message,
+            notes,
             is_text: (*diag).is_text_source,
         };
 
@@ -72,6 +80,7 @@ impl From<String> for Diagnostic {
             index: 0,
             is_text: false,
             message,
+            notes: String::new(),
         }
     }
 }
@@ -83,6 +92,7 @@ impl From<Message> for Diagnostic {
             column: msg.column,
             index: msg.index,
             message: msg.message,
+            notes: msg.notes,
             is_text: false,
         }
     }
@@ -96,6 +106,8 @@ pub struct Message {
     pub column: usize,
     pub index: usize,
     pub message: String,
+    /// Some messages can include additional information, typically instructions
+    pub notes: String,
 }
 
 impl Message {
@@ -108,6 +120,21 @@ impl Message {
             column: 0,
             index: 0,
             message,
+            notes: String::new(),
+        }
+    }
+
+    #[cfg(feature = "use-compiled-tools")]
+    unsafe fn message_and_notes_from_cstr(msg: *const std::os::raw::c_char) -> (String, String) {
+        let full_message = std::ffi::CStr::from_ptr(msg).to_string_lossy();
+
+        if let Some(ind) = full_message.find('\n') {
+            (
+                full_message[..ind].to_owned(),
+                full_message[ind + 1..].to_owned(),
+            )
+        } else {
+            (full_message.into_owned(), String::new())
         }
     }
 
@@ -124,7 +151,8 @@ impl Message {
             } else {
                 Some(std::ffi::CStr::from_ptr(source).to_string_lossy())
             };
-            let message = std::ffi::CStr::from_ptr(msg).to_string_lossy();
+
+            let (message, notes) = Self::message_and_notes_from_cstr(msg);
 
             let (line, column, index) = if source_pos.is_null() {
                 (0, 0, 0)
@@ -148,7 +176,8 @@ impl Message {
                 line,
                 column,
                 index,
-                message: message.into_owned(),
+                message,
+                notes,
             }
         }
     }
@@ -184,6 +213,7 @@ impl Message {
                 source: None,
                 line: 0,
                 column: 0,
+                notes: String::new(),
             })
     }
 }
