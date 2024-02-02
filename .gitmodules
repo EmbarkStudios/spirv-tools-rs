@@ -1,7 +1,8 @@
 [submodule "spirv-tools-sys/spirv-headers"]
 	path = spirv-tools-sys/spirv-headers
 	url = https://github.com/KhronosGroup/SPIRV-Headers.git
+	branch = vulkan-sdk-1.3.275
 [submodule "spirv-tools-sys/spirv-tools"]
 	path = spirv-tools-sys/spirv-tools
-	url = https://github.com/EmbarkStudios/SPIRV-Tools.git
-	branch = patch-to-string
+	url = https://github.com/KhronosGroup/SPIRV-Tools
+	branch = vulkan-sdk-1.3.275
