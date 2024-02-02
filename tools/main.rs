@@ -47,42 +47,36 @@ fn main() {
         }
     }
 
-    let bin_files = {
-        let ext = if cfg!(windows) { "exe" } else { "" };
-
-        let out = path::Path::new("spirv-tools-sys/spirv-tools/bazel-bin");
-        let pkg = path::Path::new("tools/bin");
-
-        if pkg.exists() {
-            fs::remove_dir_all(&pkg).expect("failed to remove package dir");
-        }
-
-        fs::create_dir_all(&pkg).expect("failed to create package dir");
-
-        let mut files = Vec::new();
-        for exe in BINARIES {
-            let src = out.join(exe).with_extension(ext);
-            let tar = pkg.join(exe).with_extension(ext);
-            if let Err(err) = fs::copy(&src, &tar) {
-                panic!("failed to copy {src:?} to {tar:?}: {err}");
-            }
-            files.push(tar);
-        }
-
-        files
-    };
-
     // Finally, package a zstd compressed tarball
-    {
-        let mut cmd = Command::new("tar");
-        cmd.arg("caf");
-        cmd.arg(format!("tools/{triple}.tar.zst"));
-        // Strip the leading components so the tarball only contains the files
-        cmd.arg("--xform=s,tools/bin/,,");
-        cmd.args(bin_files);
+    let tar_file =
+        fs::File::create(format!("tools/{triple}.tar.zst")).expect("failed to create tarball");
+    let zstd_stream =
+        zstd::stream::write::Encoder::new(tar_file, 3).expect("failed to create zstd encoder");
 
-        if !cmd.status().expect("tar not installed").success() {
-            panic!("failed to package tarball");
+    let mut tar = tar::Builder::new(zstd_stream);
+
+    // This is the default, but this just makes sure we aren't adding symlinks
+    // but rather the files themselves
+    tar.follow_symlinks(true);
+
+    let ext = if cfg!(windows) { "exe" } else { "" };
+    let out = path::Path::new("spirv-tools-sys/spirv-tools/bazel-bin");
+
+    for exe in BINARIES {
+        let src = {
+            let mut pb = out.join(exe);
+            pb.set_extension(ext);
+            pb
+        };
+
+        if let Err(err) = tar.append_path_with_name(&src, exe) {
+            panic!("failed to append {src:?} to tarball: {err}");
         }
     }
+
+    let zstd_stream = tar.into_inner().expect("failed to finish writing tarball");
+    let tar_file = zstd_stream.finish().expect("failed to compress tarball");
+    tar_file
+        .sync_all()
+        .expect("failed to flush tarball to disk");
 }

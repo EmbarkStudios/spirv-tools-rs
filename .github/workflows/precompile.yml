@@ -25,7 +25,7 @@ jobs:
           key: bazel-cache-${{ runner.os }}
       - name: Build
         shell: bash
-        run: tools/package.sh ${{ matrix.target }} ~/.bazel/cache
+        run: cargo run -p package -- ${{ matrix.os }} ~/.bazel/cache
       - name: Upload
         uses: actions/upload-artifact@v4
         with:

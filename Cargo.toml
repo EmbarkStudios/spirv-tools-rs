@@ -1,3 +1,5 @@
+workspace = { members = ["tools"] }
+
 [package]
 name = "spirv-tools"
 description = "Wrapper crate for SPIRV-Tools"

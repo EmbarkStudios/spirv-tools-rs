@@ -1,0 +1,14 @@
+[package]
+name = "package"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "package"
+path = "main.rs"
+test = false
+bench = false
+
+[dependencies]
+tar = "0.4"
+zstd = "0.13"

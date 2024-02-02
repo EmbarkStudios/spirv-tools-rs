@@ -1,4 +1,6 @@
 all-features = true
+# This is CI use only and doesn't affect the crates or downstream users
+exclude = ["package"]
 
 [advisories]
 vulnerability = "deny"
