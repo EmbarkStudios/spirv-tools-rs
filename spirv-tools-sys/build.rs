@@ -91,7 +91,6 @@ fn opt(build: &mut Build) {
             "eliminate_dead_constant_pass",
             "eliminate_dead_functions_pass",
             "eliminate_dead_functions_util",
-            "eliminate_dead_input_components_pass",
             "eliminate_dead_members_pass",
             "feature_manager",
             "fix_func_call_arguments",
@@ -213,6 +212,7 @@ fn val(build: &mut Build) {
             "validate_primitives",
             "validate_ray_query",
             "validate_ray_tracing",
+            "validate_ray_tracing_reorder",
             "validate_scopes",
             "validate_small_type_uses",
             "validate_type",
@@ -277,7 +277,7 @@ fn main() {
             .flag("-Wnon-virtual-dtor")
             .flag("-Wno-missing-field-initializers")
             .flag("-Werror")
-            .flag("-std=c++11")
+            .flag("-std=c++17")
             .flag("-fno-exceptions")
             .flag("-fno-rtti")
             .flag("-Wno-long-long")
@@ -285,8 +285,7 @@ fn main() {
             .flag("-Wundef")
             .flag("-Wconversion")
             .flag("-Wno-sign-conversion")
-            .flag("-Wno-deprecated-declarations") // suppress warnings about sprintf
-            .flag("-std=gnu++11");
+            .flag("-Wno-deprecated-declarations"); // suppress warnings about sprintf
     } else if compiler.is_like_clang() {
         build
             .flag("-Wextra-semi")
@@ -296,7 +295,7 @@ fn main() {
             .flag("-Wno-missing-field-initializers")
             .flag("-Wno-self-assign")
             .flag("-Werror")
-            .flag("-std=c++11")
+            .flag("-std=c++17")
             .flag("-fno-exceptions")
             .flag("-fno-rtti")
             .flag("-Wno-long-long")
@@ -305,8 +304,7 @@ fn main() {
             .flag("-Wconversion")
             .flag("-Wno-sign-conversion")
             .flag("-Wno-deprecated-declarations") // suppress warnings about sprintf
-            .flag("-ftemplate-depth=1024")
-            .flag("-std=gnu++11");
+            .flag("-ftemplate-depth=1024");
     }
 
     build.cpp(true);
