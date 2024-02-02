@@ -263,7 +263,7 @@ fn main() {
         "macos" => "SPIRV_MAC",
         android if android.starts_with("android") => "SPIRV_ANDROID",
         "freebsd" => "SPIRV_FREEBSD",
-        other => panic!("unsupported target os '{}'", other),
+        other => panic!("unsupported target os '{other}'"),
     };
 
     build.define(target_def, None);
@@ -305,6 +305,8 @@ fn main() {
             .flag("-Wno-sign-conversion")
             .flag("-Wno-deprecated-declarations") // suppress warnings about sprintf
             .flag("-ftemplate-depth=1024");
+    } else if compiler.is_like_msvc() {
+        build.flag("/std:c++17");
     }
 
     build.cpp(true);
