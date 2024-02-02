@@ -1,0 +1,33 @@
+on: workflow_dispatch
+
+name: Precompile spirv-tools binaries
+jobs:
+  build:
+    name: Build
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+          - os: windows-2022
+            target: x86_64-pc-windows-msvc
+          - os: macOS-14
+            target: aarch64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Mount Bazel cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.bazel/cache
+          key: bazel-cache-${{ runner.os }}
+      - name: Build
+        shell: bash
+        run: .github/package-tools.sh ${{ matrix.target }} ~/.bazel/cache
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}-binaries
+          path: tools/${{ matrix.target }}.tar.zst
