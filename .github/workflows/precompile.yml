@@ -22,7 +22,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.bazel/cache
-          key: bazel-cache-${{ runner.os }}
+          key: bazel-cache-${{ matrix.target }}
       - name: Build
         shell: bash
         run: cargo run -p package -- ${{ matrix.target }} ~/.bazel/cache
