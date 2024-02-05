@@ -73,15 +73,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: stable
-          target: x86_64-unknown-linux-musl
-      - name: Install musl tools
-        run: sudo apt-get install -y musl-tools
+      - uses: dtolnay/rust-toolchain@stable
       - run: cargo fetch
       - name: cargo publish check
-        run: cargo publish --target x86_64-unknown-linux-musl --dry-run --manifest-path spirv-tools-sys/Cargo.toml
+        run: cargo publish --dry-run --manifest-path spirv-tools-sys/Cargo.toml
       - name: cargo publish check
-        run: cargo publish --target x86_64-unknown-linux-musl --dry-run --manifest-path Cargo.toml
+        run: cargo publish --dry-run --manifest-path Cargo.toml
