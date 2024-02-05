@@ -27,7 +27,9 @@ jobs:
         shell: bash
         run: cargo run -p package -- ${{ matrix.target }} ~/.bazel/cache
       - name: Upload
+        id: upload
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}-binaries
           path: tools/${{ matrix.target }}.tar.zst
+      - run:  echo 'Artifact ID is ${{ steps.upload.outputs.artifact-id }}'

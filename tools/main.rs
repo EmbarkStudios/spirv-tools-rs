@@ -55,6 +55,17 @@ fn main() {
         if let Some(bc) = bazel_cache {
             cmd.arg(format!("--output_user_root={bc}"));
         }
+
+        // TODO: Right now we are building on x86_64 macs because for some
+        // inexplicable reason the macos 14 (aarch64) runners don't have python
+        // installed? so we just build the aarch64 binaries and then use them on
+        // the good runners that don't need python, thankfully. This can be moved
+        // to aarch64 when github updates the runner (I'm assuming not having
+        // python by default will make many people upset)
+        if cfg!(target_os = "macos") {
+            cmd.arg("--macos_cpus=arm64");
+        }
+
         cmd.args(["build", "--compilation_mode", "opt", "--strip", "always"]);
         cmd.args(BINARIES.iter().map(|b| format!(":{b}")));
         cmd.current_dir(cwd);
