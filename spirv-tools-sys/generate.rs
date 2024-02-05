@@ -62,6 +62,7 @@ fn enum_string_mapping(version: &str) {
         format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
         "--extension-enum-output=generated/extension_enum.inc".to_owned(),
         "--enum-string-mapping-output=generated/enum_string_mapping.inc".to_owned(),
+        "--output-language=c++".into(),
     ]).expect("failed to generate enum includes from spirv-headers");
 }
 
@@ -102,6 +103,7 @@ fn core_table(which: &str) {
         format!("--extinst-debuginfo-grammar={HEADERS}/unified1/extinst.debuginfo.grammar.json"),
         format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
         format!("--operand-kinds-output=generated/operand.kinds-{which}.inc"),
+        "--output-language=c++".into(),
     ]).expect("failed to generate core table from spirv-headers");
 }
 
@@ -122,6 +124,7 @@ fn glsl_table(version: &str) {
         format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
         format!("--extinst-glsl-grammar={HEADERS}/{version}/extinst.glsl.std.450.grammar.json"),
         "--glsl-insts-output=generated/glsl.std.450.insts.inc".to_owned(),
+        "--output-language=c++".into(),
     ]).expect("failed to generate glsl table from spirv-headers");
 }
 
@@ -133,6 +136,7 @@ fn opencl_table(version: &str) {
         format!("--extinst-cldebuginfo100-grammar={HEADERS}/unified1/extinst.opencl.debuginfo.100.grammar.json"),
         format!("--extinst-opencl-grammar={HEADERS}/{version}/extinst.opencl.std.100.grammar.json"),
         "--opencl-insts-output=generated/opencl.std.insts.inc".to_owned(),
+        "--output-language=c++".into(),
     ]).expect("failed to generate glsl table from spirv-headers");
 }
 

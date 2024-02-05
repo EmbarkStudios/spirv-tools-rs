@@ -125,9 +125,7 @@ impl fmt::Debug for Binary {
 /// digestible byte array
 #[inline]
 pub fn from_binary(bin: &[u32]) -> &[u8] {
-    unsafe {
-        std::slice::from_raw_parts(bin.as_ptr().cast(), bin.len() * std::mem::size_of::<u32>())
-    }
+    unsafe { std::slice::from_raw_parts(bin.as_ptr().cast(), std::mem::size_of_val(bin)) }
 }
 
 /// Transmutes a regular byte array into a SPIRV binary of 32 bit words. This

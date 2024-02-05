@@ -61,6 +61,7 @@ fn opt(build: &mut Build) {
         "spirv-tools/source/opt",
         &[
             "aggressive_dead_code_elim_pass",
+            "analyze_live_input_pass",
             "amd_ext_to_khr",
             "basic_block",
             "block_merge_pass",
@@ -91,8 +92,9 @@ fn opt(build: &mut Build) {
             "eliminate_dead_constant_pass",
             "eliminate_dead_functions_pass",
             "eliminate_dead_functions_util",
-            "eliminate_dead_input_components_pass",
+            "eliminate_dead_io_components_pass",
             "eliminate_dead_members_pass",
+            "eliminate_dead_output_stores_pass",
             "feature_manager",
             "fix_func_call_arguments",
             "fix_storage_class",
@@ -115,9 +117,11 @@ fn opt(build: &mut Build) {
             "instrument_pass",
             "interface_var_sroa",
             "interp_fixup_pass",
+            "invocation_interlock_placement_pass",
             "ir_context",
             "ir_loader",
             "licm_pass",
+            "liveness",
             "local_access_chain_convert_pass",
             "local_redundancy_elimination",
             "local_single_block_elim_pass",
@@ -161,6 +165,8 @@ fn opt(build: &mut Build) {
             "strip_debug_info_pass",
             "strip_nonsemantic_info_pass",
             "struct_cfg_analysis",
+            "switch_descriptorset_pass",
+            "trim_capabilities_pass",
             "type_manager",
             "types",
             "unify_const_pass",
@@ -213,6 +219,7 @@ fn val(build: &mut Build) {
             "validate_primitives",
             "validate_ray_query",
             "validate_ray_tracing",
+            "validate_ray_tracing_reorder",
             "validate_scopes",
             "validate_small_type_uses",
             "validate_type",
@@ -263,7 +270,7 @@ fn main() {
         "macos" => "SPIRV_MAC",
         android if android.starts_with("android") => "SPIRV_ANDROID",
         "freebsd" => "SPIRV_FREEBSD",
-        other => panic!("unsupported target os '{}'", other),
+        other => panic!("unsupported target os '{other}'"),
     };
 
     build.define(target_def, None);
@@ -277,7 +284,7 @@ fn main() {
             .flag("-Wnon-virtual-dtor")
             .flag("-Wno-missing-field-initializers")
             .flag("-Werror")
-            .flag("-std=c++11")
+            .flag("-std=c++17")
             .flag("-fno-exceptions")
             .flag("-fno-rtti")
             .flag("-Wno-long-long")
@@ -285,8 +292,7 @@ fn main() {
             .flag("-Wundef")
             .flag("-Wconversion")
             .flag("-Wno-sign-conversion")
-            .flag("-Wno-deprecated-declarations") // suppress warnings about sprintf
-            .flag("-std=gnu++11");
+            .flag("-Wno-deprecated-declarations"); // suppress warnings about sprintf
     } else if compiler.is_like_clang() {
         build
             .flag("-Wextra-semi")
@@ -296,7 +302,7 @@ fn main() {
             .flag("-Wno-missing-field-initializers")
             .flag("-Wno-self-assign")
             .flag("-Werror")
-            .flag("-std=c++11")
+            .flag("-std=c++17")
             .flag("-fno-exceptions")
             .flag("-fno-rtti")
             .flag("-Wno-long-long")
@@ -305,8 +311,9 @@ fn main() {
             .flag("-Wconversion")
             .flag("-Wno-sign-conversion")
             .flag("-Wno-deprecated-declarations") // suppress warnings about sprintf
-            .flag("-ftemplate-depth=1024")
-            .flag("-std=gnu++11");
+            .flag("-ftemplate-depth=1024");
+    } else if compiler.is_like_msvc() {
+        build.flag("/std:c++17");
     }
 
     build.cpp(true);

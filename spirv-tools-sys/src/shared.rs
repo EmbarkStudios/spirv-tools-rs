@@ -7,10 +7,13 @@ use std::fmt;
 /// When an API method needs to derive a SPIR-V version from a target environment
 /// the method will choose the highest version of SPIR-V supported by the target
 /// environment. Examples:
+///
+/// ```
 ///    SPV_ENV_VULKAN_1_0           ->  SPIR-V 1.0
 ///    SPV_ENV_VULKAN_1_1           ->  SPIR-V 1.3
 ///    SPV_ENV_VULKAN_1_1_SPIRV_1_4 ->  SPIR-V 1.4
 ///    SPV_ENV_VULKAN_1_2           ->  SPIR-V 1.5
+/// ```
 ///
 /// Consult the description of API entry points for specific rules.
 #[derive(Copy, Clone, Debug, PartialEq)]
@@ -171,6 +174,7 @@ pub enum SpirvResult {
 
 impl fmt::Display for SpirvResult {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        #[allow(clippy::enum_glob_use)]
         use SpirvResult::*;
 
         match self {

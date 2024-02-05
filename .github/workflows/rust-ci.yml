@@ -15,7 +15,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable
@@ -35,25 +35,32 @@ jobs:
     name: Test
     strategy:
       matrix:
-        os: [ubuntu-22.04, windows-2022, macOS-11]
+        include:
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+          - os: windows-2022
+            target: x86_64-pc-windows-msvc
+          - os: macOS-14
+            target: aarch64-apple-darwin
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable
+      - run: cargo run -p install -- ${{matrix.target}} __internal__binaries__ "${{github.workspace}}/bin"
       - run: cargo fetch
       - name: cargo test build
-        run: cargo build --tests --release
+        run: cargo build --tests --release --all-features
       - name: cargo test
-        run: cargo test --release
+        run: cargo test --release --all-features
 
   # Remove this check if you don't use cargo-deny in the repo
   deny-check:
     name: cargo-deny
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: EmbarkStudios/cargo-deny-action@v1
@@ -63,7 +70,7 @@ jobs:
     name: Publish Check
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable

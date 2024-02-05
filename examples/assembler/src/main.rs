@@ -1,28 +1,28 @@
-use structopt::StructOpt;
+use clap::Parser;
 
 /// Create a SPIR-V binary module from SPIR-V assembly text
-#[derive(StructOpt)]
+#[derive(Parser)]
 struct Args {
     /// Set the output filename. Use '-' for stdout.
-    #[structopt(short, default_value = "out.spv")]
+    #[clap(short, default_value = "out.spv")]
     output: String,
     /// Numeric IDs in the binary will have the same values as in the
     /// source. Non-numeric IDs are allocated by filling in the gaps,
     /// starting with 1 and going up.
-    #[structopt(long = "preserve-numeric-ids")]
+    #[clap(long = "preserve-numeric-ids")]
     preserve_ids: bool,
     /// Use specified environment.
-    #[structopt(long = "target-env", parse(try_from_str))]
+    #[clap(long = "target-env")]
     target_env: Option<spirv_tools::TargetEnv>,
     /// The input file. Use '-' for stdin.
-    #[structopt(name = "FILE")]
+    #[clap(name = "FILE")]
     input: String,
 }
 
 fn main() {
     use spirv_tools::assembler::{self, Assembler};
 
-    let args = Args::from_args();
+    let args = Args::parse();
 
     let contents = if args.input == "-" {
         use std::io::Read;
@@ -44,6 +44,8 @@ fn main() {
 
     match assembler.assemble(&contents, assembler_opts) {
         Ok(binary) => {
+            let len = binary.as_bytes().len();
+
             if args.output == "-" {
                 use std::io::Write;
                 std::io::stdout()
@@ -51,11 +53,20 @@ fn main() {
                     .write_all(binary.as_ref())
                     .expect("failed to write binary to stdout");
             } else {
-                std::fs::write(args.output, &binary).expect("failed to write binary");
+                std::fs::write(&args.output, &binary).expect("failed to write binary");
             }
+
+            println!(
+                "wrote {len}b to {}",
+                if args.output == "-" {
+                    "<stdin>"
+                } else {
+                    args.output.as_str()
+                }
+            );
         }
         Err(e) => {
-            eprintln!("{}", e);
+            eprintln!("{e}");
             std::process::exit(1);
         }
     }
