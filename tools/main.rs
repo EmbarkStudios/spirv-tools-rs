@@ -58,18 +58,6 @@ fn main() {
 
         cmd.args(["build", "--compilation_mode", "opt", "--strip", "always"]);
 
-        // TODO: Right now we are building on x86_64 macs because for some
-        // inexplicable reason the macos 14 (aarch64) runners don't have python
-        // installed? so we just build the aarch64 binaries and then use them on
-        // the good runners that don't need python, thankfully. This can be moved
-        // to aarch64 when github updates the runner (I'm assuming not having
-        // python by default will make many people upset)
-        // Also, if we were to also want x86_64 binaries we could add that triple
-        // and build on either m1 or old, but I don't see that point of that
-        if triple == "aarch64-apple-darwin" {
-            cmd.arg("--cpu=darwin_arm64");
-        }
-
         cmd.args(BINARIES.iter().map(|b| format!(":{b}")));
         cmd.current_dir(cwd);
 
