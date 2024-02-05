@@ -94,7 +94,13 @@ fn main() {
                 pb
             };
 
-            if let Err(err) = tar.append_path_with_name(&src, exe) {
+            let name = if ext.is_empty() {
+                exe.to_string()
+            } else {
+                format!("{exe}.{ext}")
+            };
+
+            if let Err(err) = tar.append_path_with_name(&src, name) {
                 panic!("failed to append {src:?} to tarball: {err}");
             }
 
