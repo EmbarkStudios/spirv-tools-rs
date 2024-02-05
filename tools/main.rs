@@ -67,7 +67,7 @@ fn main() {
         // Also, if we were to also want x86_64 binaries we could add that triple
         // and build on either m1 or old, but I don't see that point of that
         if triple == "aarch64-apple-darwin" {
-            cmd.arg("--macos_cpus=arm64,x86_64");
+            cmd.arg("--cpu=darwin_arm64");
         }
 
         cmd.args(BINARIES.iter().map(|b| format!(":{b}")));
