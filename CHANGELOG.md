@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [0.10.0] - 2024-02-05
 ### Changed
 - [PR#38](https://github.com/EmbarkStudios/spirv-tools-rs/pull/38) updated to `vulkan-sdk-1.3.275`.
 - [PR#37](https://github.com/EmbarkStudios/spirv-tools-rs/pull/37) added `impl Clone` for `Diagnostic`.
@@ -83,7 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added initial implementation, which includes the assembler, validator, and most of the optimizer, which meets the current needs of rust-gpu.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.9.0...HEAD
+[Unreleased]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.10.0...HEAD
+[0.10.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.9.0...0.10.0
 [0.9.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.8.0...0.9.0
 [0.8.0]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.7.1...0.8.0
 [0.7.1]: https://github.com/EmbarkStudios/spirv-tools-rs/compare/0.7.0...0.7.1
