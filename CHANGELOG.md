@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Changed
+- [PR#38](https://github.com/EmbarkStudios/spirv-tools-rs/pull/38) updated to `vulkan-sdk-1.3.275`.
+- [PR#37](https://github.com/EmbarkStudios/spirv-tools-rs/pull/37) added `impl Clone` for `Diagnostic`.
+
+### Fixed
+- [PR#36](https://github.com/EmbarkStudios/spirv-tools-rs/pull/36) fixed the parsing if diagnostic messages from spirv-tools binaries.
+
 ## [0.9.0] - 2022-10-17
 ### Changed
 - [PR#30](https://github.com/EmbarkStudios/spirv-tools-rs/pull/30) updated to [v2022.2](https://github.com/KhronosGroup/SPIRV-Tools/blob/cb96abbf7affd986016f17dd09f9f971138a922b/CHANGES#L6-L43) of spirv-tools.
